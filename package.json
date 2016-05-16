@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/Kevarnold02/Smashing_Aces#readme",
   "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "express-handlebars": "^3.0.0",
     "materialize-css": "^0.97.6",
+    "method-override": "^2.3.5",
     "mysql": "^2.10.2"
   }
 }
