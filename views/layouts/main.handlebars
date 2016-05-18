@@ -8,16 +8,77 @@
       <!--Import Google Icon Font-->
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="../css/materialize/css/materialize.min.css"  media="screen,projection"/>
+      <link rel="stylesheet" type="text/css" href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
 
-    </head>
+  </head>
 
     <body>
+
+      <!-- navbar -->
+      <nav class="light-blue lighten-2" role="navigation">
+        <div class="nav-wrapper container">
+          <a id="logo-container" href="#" class="brand-logo thin"><img src="../images/smallcards.png"> Three Card Poker </a>
+          <ul class="right hide-on-med-and-down">
+            {{#unless logged_in}}
+              <li>
+                <a href="/users/sign-in"> Sign in </a>
+              </li>
+              <li>
+                <a href="/users/new"> Sign up </a>
+              </li>
+            {{/unless}}
+
+            {{#if logged_in}}
+              <li> 
+                <a href="/users/sign-out"> Sign out </a>
+              </li>
+            {{/if}}
+
+          <li>
+            <a href="/"><i class="material-icons left">home</i></a>
+          </li>
+        </ul>
+
+        {{!-- for mobile use only --}}
+          <ul id="nav-mobile" class="side-nav">
+            <li>
+              <a href="../../views/layouts/main">Home</a>
+            </li>
+
+            {{#unless logged_in}}
+              <li>
+                <a href="/users/sign-in"> Sign in </a>
+              </li>
+              <li>
+                <a href="/users/new"> Sign up </a>
+              </li>
+            {{/unless}}
+
+            {{#if logged_in}}
+              <li> 
+                <a href="/users/sign-out"> Sign out </a>
+              </li>
+            {{/if}}
+
+          </ul>
+        </div>
+      </nav>
+
 
       {{body}}
 
       <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script type="text/javascript" src="js/materialize.min.js"></script>
-    </body>
-  </html>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../css/materialize/js/materialize.min.js"></script>
+
+    <script type="text/javascript">
+      //for the how to play button
+      $(document).ready(function(){
+        $('.collapsible').collapsible({
+          accordion : false 
+        });
+      });
+    </script>
+  </body>
+</html>
