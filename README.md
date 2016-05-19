@@ -57,8 +57,4 @@ Ideally a bit of code that you really liked or something interesting from the Pr
 ###License
 ---
 Copyright 2009-2016 Rutgers Coding Bootcamp.
-<<<<<<< HEAD
-=======
 
- 
->>>>>>> Kelly
