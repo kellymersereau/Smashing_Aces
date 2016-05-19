@@ -23,7 +23,7 @@ function objToSql(ob){
 
   return arr.toString();
 }
-
+//these orm functions and querystrings will need to be changed to match the format of our databases and the queries we will need to run.
 var orm = {
     findOne: function(tableInput, condition, cb) {
         var queryString = 'SELECT * FROM ' + tableInput;

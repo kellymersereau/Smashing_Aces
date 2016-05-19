@@ -26,11 +26,11 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 var application_controller = require('./controllers/application_controller.js');
-var cats_controller = require('./controllers/cats_controller.js');
+var cards_controller = require('./controllers/cards_controller.js');
 var users_controller = require('./controllers/users_controller.js');
 
 app.use('/', application_controller);
-app.use('/cats', cats_controller);
+app.use('/cards', cards_controller);
 app.use('/users', users_controller);
 
 var port = 3000;

@@ -23,4 +23,3 @@ CREATE TABLE users
 	password_hash varchar(255) NOT NULL,
 	PRIMARY KEY (id)
 );
-

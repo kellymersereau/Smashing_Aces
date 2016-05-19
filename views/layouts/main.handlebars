@@ -1,5 +1,5 @@
   <!DOCTYPE html>
-  <html>
+  <html lang="en">
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -14,6 +14,18 @@
   </head>
 
     <body>
+    <!-- This is the users/sign-in, users/new, and users/sign-out handlebars format from the example. -->
+    <p>
+      Top Nav:
+      {{#unless logged_in}}
+        <a href="/users/sign-in">Sign In</a>
+        <a href="/users/new">Sign Up</a>
+      {{/unless}}
+
+      {{#if logged_in}}
+        <a href="/users/sign-out">Sign Out</a>
+      {{/if}}
+    </p>
 
       <!-- navbar -->
       <nav class="light-blue lighten-2" role="navigation">
