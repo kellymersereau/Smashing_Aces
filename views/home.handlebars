@@ -1,0 +1,14 @@
+  {{#unless logged_in}}
+  <li>
+    <a href="/users/sign-in"> Sign in </a>
+  </li>
+  <li>
+    <a href="/users/new"> Sign up </a>
+  </li>
+  {{/unless}}
+
+  {{#if logged_in}}
+  <li> 
+    <a href="/users/sign-out"> Sign out </a>
+  </li>
+  {{/if}}

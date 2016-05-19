@@ -10,6 +10,7 @@ app.use(express.static(process.cwd() + '/public'));
 app.use(bodyParser.urlencoded({
 	extended: false
 }))
+
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
 var exphbs = require('express-handlebars');
@@ -18,8 +19,24 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
-var routes = require('./controllers/cards_controller.js');
-app.use('/', routes);
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'cards_db'
+});
 
-var port = process.env.PORT || 3000;
-app.listen(port);
+connection.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  };
+
+  console.log('connected as id ' + connection.threadId);
+})
+
+//this is server.js
+app.get('/', function(req,res) {
+  res.render('home');
+});
