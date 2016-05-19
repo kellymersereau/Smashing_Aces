@@ -20,60 +20,36 @@
         <div class="nav-wrapper container">
           <a id="logo-container" href="#" class="brand-logo thin"><img src="../images/smallcards.png"> Three Card Poker </a>
           <ul class="right hide-on-med-and-down">
-            {{#unless logged_in}}
-              <li>
-                <a href="/users/sign-in"> Sign in </a>
-              </li>
-              <li>
-                <a href="/users/new"> Sign up </a>
-              </li>
-            {{/unless}}
-
-            {{#if logged_in}}
-              <li> 
-                <a href="/users/sign-out"> Sign out </a>
-              </li>
-            {{/if}}
 
           <li>
-            <a href="/"><i class="material-icons left">home</i></a>
+            <a href="/home"><i class="material-icons right">home</i></a>
+          </li>
+          <li>
+            <a href="/info"><i class="material-icons right">info</i></a>
           </li>
         </ul>
 
         {{!-- for mobile use only --}}
           <ul id="nav-mobile" class="side-nav">
             <li>
-              <a href="../../views/layouts/main">Home</a>
+              <a href="/home"><i class="material-icons right">home</i></a>
             </li>
-
-            {{#unless logged_in}}
-              <li>
-                <a href="/users/sign-in"> Sign in </a>
-              </li>
-              <li>
-                <a href="/users/new"> Sign up </a>
-              </li>
-            {{/unless}}
-
-            {{#if logged_in}}
-              <li> 
-                <a href="/users/sign-out"> Sign out </a>
-              </li>
-            {{/if}}
-
+            <li>
+              <a href="/info"><i class="material-icons right">info</i></a>
+            </li>
           </ul>
         </div>
       </nav>
 
 
-      {{body}}
+      {{{body}}}
 
       <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="../css/materialize/js/materialize.min.js"></script>
 
     <script type="text/javascript">
-      //for the how to play button
+      //for accordian table
       $(document).ready(function(){
         $('.collapsible').collapsible({
           accordion : false 
