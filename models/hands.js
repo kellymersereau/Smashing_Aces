@@ -1,8 +1,8 @@
-//this deals with the cards that are dealt during the hands and the logic of the game itself
+//connects to the game_controllers.js --- deals with the hands for each user during the game
 
 var orm = require('../config/orm.js');
 
-var card = {
+var hand = {
 	findOne: function(condition, cb) {
 	  orm.findOne('deals_cards', condition, function(res){
 	      cb(res);
@@ -31,4 +31,4 @@ var card = {
 	}
 };
 
-module.exports = card;
+module.exports = hand;

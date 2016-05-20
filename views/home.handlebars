@@ -1,14 +1,18 @@
-  {{#unless logged_in}}
-  <li>
-    <a href="/users/sign-in"> Sign in </a>
-  </li>
-  <li>
-    <a href="/users/new"> Sign up </a>
-  </li>
-  {{/unless}}
+<div class="container">
+  <div class="row center">
+    <div class=" col s8 offset-s2">
+      <div class="collection">
 
-  {{#if logged_in}}
-  <li> 
-    <a href="/users/sign-out"> Sign out </a>
-  </li>
-  {{/if}}
+        {{#unless logged_in}}
+          <a href="/users/sign-in" class="collection-item center"> Sign in </a>
+          <a href="/users/new" class="collection-item center"> Sign up </a>
+        {{/unless}}
+
+        {{#if logged_in}}
+          <a href="/users/sign-out" class="collection-item center"> Sign out </a>
+        {{/if}}
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -55,3 +55,4 @@ INSERT INTO cards (suite,rank,image_link) VALUES ('hearts',11,'h11.bmp');
 INSERT INTO cards (suite,rank,image_link) VALUES ('hearts',12,'h12.bmp');
 INSERT INTO cards (suite,rank,image_link) VALUES ('hearts',13,'h13.bmp');
 INSERT INTO cards (suite,rank,image_link) VALUES ('hearts',14,'h14.bmp');
+
