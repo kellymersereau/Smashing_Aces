@@ -5,7 +5,7 @@ var hand = require('../models/hands.js');
 //this route has pointed to the index.handlebars page in all of the previous exercises, not sure if we will need both a main.handlebars AND an index.handlebars (or whatever.handlebars as long as its different than main.handlebars).
 
 router.get('/', function(req, res){
-	res.redirect('/home')
+	res.redirect('/game')
 });
 
 router.get('/game', function(req,res) {
@@ -15,7 +15,7 @@ router.get('/game', function(req,res) {
 			logged_in: req.session.logged_in
 		}
 		console.log(hbsObject)
-		res.render('main', hbsObject);
+		res.render('cardgame', hbsObject);
 	});
 });
 
@@ -23,7 +23,7 @@ router.get('/game', function(req,res) {
 //(kelly) it isn't needed to be e-mail but it is needed so we can push the players information into the hands table.  this will only be called when the user is placed into the game and finalizes their bets
 router.post('/create', function(req,res) {
 	hand.create(['user_id'], [req.body.id], function(data){
-		res.redirect('/home')
+		res.redirect('/game')
 	});
 });
 
@@ -38,7 +38,7 @@ router.put('/update/:id', function(req,res) {
 	// (kelly) updates the deals table with the amount of money played for this user for this current deal
 
 	hand.update({'pairs_plus' : req.body.pairsPlus, 'pairs_plus_bet' : req.body.pairsPlusBet, 'ante_bet' : req.body.anteBet, 'play_bet' : req.body.playBet}, condition, function(data){
-		res.redirect('/cards');
+		res.redirect('/game');
 	});
 });
 

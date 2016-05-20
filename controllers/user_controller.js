@@ -5,8 +5,9 @@ var card = require('../models/card.js');
 var user = require('../models/user.js');
 var connection = require('../config/connection.js');
 
+
 //this is the users_controller.js file
-router.get('/profile/:id', function(req, res){
+router.get('/:id', function(req, res){
   var user_id = req.params.id;
   var condition = 'id = ' + user_id;
   user.findOne(condition, function(user){

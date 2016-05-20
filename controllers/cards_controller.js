@@ -7,17 +7,17 @@ var card = require('../models/card.js');
 //this route has pointed to the index.handlebars page in all of the previous exercises, not sure if we will need both a main.handlebars AND an index.handlebars (or whatever.handlebars as long as its different than main.handlebars).
 
 router.get('/', function(req, res){
-	res.redirect('/home')
+	res.redirect('/game');
 });
 
 router.get('/game', function(req,res) {
 	card.all(function(data){
 		var hbsObject = {
-			cards : data,
+			card : data,
 			logged_in: req.session.logged_in
 		}
 		console.log(hbsObject)
-		res.render('main', hbsObject);
+		res.render('cardgame', hbsObject);
 	});
 });
 
