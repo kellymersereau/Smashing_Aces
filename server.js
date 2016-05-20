@@ -40,3 +40,6 @@ connection.connect(function(err) {
 app.get('/', function(req,res) {
   res.render('home');
 });
+
+var port = process.env.PORT || 3000;
+app.listen(port);
