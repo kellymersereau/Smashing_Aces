@@ -36,7 +36,8 @@ CREATE TABLE hands
 	pairs_plus boolean DEFAULT false,
 	pairs_plus_bet int DEFAULT 0,
 	ante_bet int DEFAULT 0,
-	play_bet int DEFAULT 0
+	play_bet int DEFAULT 0,
+	PRIMARY KEY (id)
 );
 
 
@@ -46,5 +47,6 @@ CREATE TABLE deals_cards
 (
 	id int AUTO_INCREMENT,
 	deal_id int NOT NULL,
-	card_id int NOT NULL
+	card_id int NOT NULL,
+	PRIMARY KEY (id)
 );
