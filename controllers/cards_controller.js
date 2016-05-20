@@ -30,9 +30,9 @@ router.put('/update/:card_id', function(req,res) {
 
 	//(kelly) updates the deals table with the cards played for each user during each deal - i'm not quite sure how to do this
 
-	card.update('deals_cards', {''}, condition, function(data){
-		res.redirect('/cards');
-	});
+	// card.update('deals_cards', {''}, condition, function(data){
+	// 	res.redirect('/cards');
+	// });
 });
 
 

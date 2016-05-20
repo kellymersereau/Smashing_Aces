@@ -36,10 +36,18 @@ connection.connect(function(err) {
   console.log('connected as id ' + connection.threadId);
 })
 
-//this is server.js
-app.get('/', function(req,res) {
-  res.render('home');
-});
+
+var application_controllers = require('./controllers/application_controllers.js');
+var cards_controller = require('./controllers/cards_controller.js');
+var user_controller = require('./controllers/user_controller.js');
+var game_controller = require('./controllers/game_controller.js');
+// var waitingRoom_controller = require('./controllers/waitingRoom_controller.js');
+
+app.use('/', application_controllers);
+app.use('/cards', cards_controller);
+app.use('/user', user_controller);
+app.use('/game', game_controller);
+// app.use('/waitingRoom', waitingRoom_controller);
 
 var port = process.env.PORT || 3000;
 app.listen(port);

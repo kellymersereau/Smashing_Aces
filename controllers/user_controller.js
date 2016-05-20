@@ -1,7 +1,7 @@
 var bcrypt = require('bcryptjs');
 var express = require('express');
 var router = express.Router();
-var cat = require('../models/card.js');
+var card = require('../models/card.js');
 var user = require('../models/user.js');
 var connection = require('../config/connection.js');
 
