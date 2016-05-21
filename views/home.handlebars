@@ -1,21 +1,87 @@
-<br>
-<br>
-<div class="container">
-  <div class="row center">
-    <div class=" col s8 offset-s2">
-      <div class="collection">
+<br><br>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <h1 class="header center green-text">
+      Three Card Poker
+      </h1>
+      <div class="row center">
+        <h5 class="header col s12 light">
+      An exciting casino table game!
+        </h5>
+      </div>
+      <br>
 
+      <div class="row center">
         {{#unless logged_in}}
-          <a href="/user/sign-in" class="collection-item center"> Sign in </a>
-          <a href="/user/new" class="collection-item center"> Sign up </a>
+          <a href="/user/sign-in" class="btn-large waves-effect waves-light green"> Sign in </a>
+          <a href="/user/new" class="btn-large waves-effect waves-light green"> Sign up </a>
+      </div>
         {{/unless}}
 
         {{#if logged_in}}
-          <a href="/game/game">Play Game! </a>
-          <a href="/user/sign-out" class="collection-item center"> Sign out </a>
-        {{/if}}
-
+      <div class="row center">
+        <a href="/game/game" class="btn-large waves-effect waves-light green">Play Game! </a>
+        <a href="/user/sign-out" class="btn-large waves-effect waves-light green"> Sign out </a>
       </div>
+      {{/if}}
+      <br><br>
     </div>
   </div>
-</div>
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center green-text text-accent-4"><i class="large material-icons">casino</i></h2>
+            <h5 class="center">What is Three Card Poker</h5>
+
+            <p class="light center-align">Three Card Poker is played with a single 52-card deck and is actually two games in one. First, the Pair Plus game allows players to wager on whether they will be dealt a Pair or better, or not. Secondly, the Play/Ante game allows players to wager against the house (dealer) to see who has the highest hand.</p>
+          </div>
+        </div>
+
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center green-text text-accent-4"><i class="large material-icons">flash_on</i></h2>
+            <h5 class="center">How to play</h5>
+
+            <p class="light">The two pots are known as “Three Card Ante/Raise”, and “Pair Plus”. Three Card Ante is simply the player against the dealer, where the highest winning poker hand wins, whereas Pair Plus is paid out for hands with a minimum of one pair or better. </p>
+
+            <!-- Modal Trigger -->
+            <button data-target="modal1" class="waves-effect waves-green waves-accent-4 btn-flat modal-trigger center-align">More info...</button>
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal modal-fixed-footer">
+              <div class="modal-content">
+                <h4 class="center-align">How to Play Three Card Poker</h4>
+                <p>The two pots are known as “Three Card Ante/Raise”, and “Pair Plus”. Three Card Ante is simply the player against the dealer, where the highest winning poker hand wins, whereas Pair Plus is paid out for hands with a minimum of one pair or better.</p>
+                <p>The game is played with a standard 52-card deck on a modified poker table. Rather than simply one betting circle, 3 Card Poker boasts three: Ante, Pair Plus, and Raise. Initial bets take place before cards are dealt, and players can bet solely on the minimum Ante, or on both the Ante and Pair Plus circles. Since both pots are played separately, players can bet different amounts. </p>
+                <p>After the first round of betting is completed, the dealer will give players three cards each, all face down. After looking at the cards, a player must choose to fold or raise their bet.  If a player folds, they must sacrifice their Ante as well as their Pair Plus bet, if they made one.  If a player does not wish to fold, they must automatically raise their bet and play the rest of the round out. </p>
+                <p>At the completion of betting, the dealer's hand is turned over and cards analyzed to reveal the winner. Initially, the dealer must “qualify” to win the hand. To qualify, they must have a hand of at least Queen high; if not, the Ante is paid out even money and the Pair Plus bet is returned to the player. If the dealer does qualify, then the Ante/Raise pot is paid out to the highest hand winner. The player will win the Pair Plus pot if they qualify with at least a one pair hand, otherwise the dealer will collect it. </p>
+              </div>
+              <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green waves-accent-2 btn-flat center-align">Close</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center green-text text-accent-4"><i class="large material-icons">account_balance</i></h2>
+            <h5 class="center">Track your winnings</h5>
+
+            <p class="light">Once logged in you can track how much money you have in your bank, add money, designate how much to withdraw from bank for play and edit your user information.  You can access this page by clicking the person icon in the top right corner once logged in.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+
+    <div class="section">
+    </div>
+  </div>
+
+
+
+

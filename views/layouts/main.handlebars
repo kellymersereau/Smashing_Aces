@@ -17,17 +17,35 @@
 
       <!-- navbar -->
     <div class="navbar-fixed">
-      <nav class="light-blue lighten-2" role="navigation">
+      <nav class="green darken-4" role="navigation">
         <div class="nav-wrapper container">
-          <a id="logo-container" href="#" class="brand-logo thin"><img src="../images/smallcards.png"> Three Card Poker </a>
+          <a id="logo-container" href="#" class="brand-logo thin"></a>
           <ul class="right hide-on-med-and-down">
 
           <li>
             <a href="/home"><i class="material-icons">home</i></a>
           </li>
           <li>
-            <a href="/info"><i class="material-icons">info</i></a>
+          <a href="#modal2" class="modal-trigger"><i class="material-icons">info</i></a>
+            <!-- Modal Structure -->
+            <div id="modal2" class="modal modal-fixed-footer">
+              <div class="modal-content light">
+                <h4 class="center-align">How to Play Three Card Poker</h4>
+                <p>The two pots are known as “Three Card Ante/Raise”, and “Pair Plus”. Three Card Ante is simply the player against the dealer, where the highest winning poker hand wins, whereas Pair Plus is paid out for hands with a minimum of one pair or better.</p>
+                <p>The game is played with a standard 52-card deck on a modified poker table. Rather than simply one betting circle, 3 Card Poker boasts three: Ante, Pair Plus, and Raise. Initial bets take place before cards are dealt, and players can bet solely on the minimum Ante, or on both the Ante and Pair Plus circles. Since both pots are played separately, players can bet different amounts. </p>
+                <p>After the first round of betting is completed, the dealer will give players three cards each, all face down. After looking at the cards, a player must choose to fold or raise their bet.  If a player folds, they must sacrifice their Ante as well as their Pair Plus bet, if they made one.  If a player does not wish to fold, they must automatically raise their bet and play the rest of the round out. </p>
+                <p>At the completion of betting, the dealer's hand is turned over and cards analyzed to reveal the winner. Initially, the dealer must “qualify” to win the hand. To qualify, they must have a hand of at least Queen high; if not, the Ante is paid out even money and the Pair Plus bet is returned to the player. If the dealer does qualify, then the Ante/Raise pot is paid out to the highest hand winner. The player will win the Pair Plus pot if they qualify with at least a one pair hand, otherwise the dealer will collect it. </p>
+              </div>
+              <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green waves-accent-2 btn-flat center-align">Close</a>
+              </div>
+            </div>
           </li>
+          {{#if logged_in}}
+          <li>
+            <a href="/info"><i class="material-icons">person</i></a>
+          </li>
+          {{/if}}
         </ul>
 
         {{!-- for mobile use only --}}
@@ -38,6 +56,24 @@
             <li>
               <a href="/info"><i class="material-icons right">info</i></a>
             </li>
+            {{#if logged_in}}
+            <li>
+              <a href="#modal2" class="modal-trigger"><i class="material-icons">info</i></a>
+              <!-- Modal Structure -->
+              <div id="modal2" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                  <h4 class="center-align">How to Play Three Card Poker</h4>
+                  <p>The two pots are known as “Three Card Ante/Raise”, and “Pair Plus”. Three Card Ante is simply the player against the dealer, where the highest winning poker hand wins, whereas Pair Plus is paid out for hands with a minimum of one pair or better.</p>
+                  <p>The game is played with a standard 52-card deck on a modified poker table. Rather than simply one betting circle, 3 Card Poker boasts three: Ante, Pair Plus, and Raise. Initial bets take place before cards are dealt, and players can bet solely on the minimum Ante, or on both the Ante and Pair Plus circles. Since both pots are played separately, players can bet different amounts. </p>
+                  <p>After the first round of betting is completed, the dealer will give players three cards each, all face down. After looking at the cards, a player must choose to fold or raise their bet.  If a player folds, they must sacrifice their Ante as well as their Pair Plus bet, if they made one.  If a player does not wish to fold, they must automatically raise their bet and play the rest of the round out. </p>
+                  <p>At the completion of betting, the dealer's hand is turned over and cards analyzed to reveal the winner. Initially, the dealer must “qualify” to win the hand. To qualify, they must have a hand of at least Queen high; if not, the Ante is paid out even money and the Pair Plus bet is returned to the player. If the dealer does qualify, then the Ante/Raise pot is paid out to the highest hand winner. The player will win the Pair Plus pot if they qualify with at least a one pair hand, otherwise the dealer will collect it. </p>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class=" modal-action modal-close waves-effect waves-green waves-accent-2 btn-flat center-align">Close</a>
+                </div>
+              </div>
+            </li>
+            {{/if}}
           </ul>
         </div>
       </nav>
@@ -46,7 +82,7 @@
 
       {{{body}}}
 
-    <footer class="page-footer blue">
+    <footer class="page-footer green darken-4">
       <div class="footer-copyright">
         <div class="container center">
           &copy; <a class="white-text" href="http://github.com/Kevarnold02/Smashing_Aces">Smashing Aces</a> 2016
@@ -59,6 +95,13 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="/assets/css/materialize/js/materialize.min.js"></script>
 
-
+    <script type="text/javascript">
+    //trigger information for the modal on the home page
+    $(document).ready(function(){
+      // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+      $('.modal-trigger').leanModal();
+    });
+           
+    </script>
   </body>
 </html>

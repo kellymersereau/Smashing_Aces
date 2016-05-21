@@ -71,11 +71,11 @@ router.post('/create', function(req,res) {
 
 				bcrypt.genSalt(10, function(err, salt) {
 						bcrypt.hash(req.body.password, salt, function(err, hash) {
-              user.create(['username', 'email', 'password_hash'], [req.body.username, req.body.email, hash], function(data){
+              user.create(['username', 'email', 'password_hash', 'photo'], [req.body.username, req.body.email, hash, req.body.photo], function(data){
                 
                 req.session.logged_in = true;
-                req.session.user_id = user.id;
-                req.session.user_email = user.email;
+                req.session.user_id = users.id;
+                req.session.user_email = users.email;
 
                 res.redirect('/sign-in')
             	});
