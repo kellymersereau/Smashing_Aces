@@ -5,15 +5,16 @@ var card = require('../models/card.js');
 var user = require('../models/user.js');
 var connection = require('../config/connection.js');
 
+//(kelly) the problem with this is when we do the user log in the findOne is pulling the condition from this router instead of the login router and idk how to fix that
 
 //this is the users_controller.js file
-router.get('/:id', function(req, res){
-  var user_id = req.params.id;
-  var condition = 'id = ' + user_id;
-  user.findOne(condition, function(user){
-      res.render('users/info', user);
-  });
-});
+// router.get('/:id', function(req, res){
+//   var user_id = req.params.id;
+//   var condition = 'id = ' + user_id;
+//   user.findOne(condition, function(user){
+//       res.render('users/info', user);
+//   });
+// });
 
 router.get('/new', function(req,res) {
 	res.render('user/new');
@@ -31,10 +32,13 @@ router.get('/sign-out', function(req,res) {
 
 //if user trys to sign in with the wrong password or email tell them that on the page
 router.post('/login', function(req, res) {
-	var email = req.body.email;
+	// var email = req.body.email;
 
-	var condition = "email = '" + email + "'";
-	user.findOne(condition, function(users){
+	var condition = "email = '" + req.body.email + "'";
+	user.findOne(condition, function(err, users){
+		if(err){
+			res.send('an account with this email does not exist - please sign up');
+		}
 		if (users.length > 0){
 			bcrypt.compare(req.body.password, users[0].password_hash, function(err, result) {
 					if (result == true){
@@ -43,7 +47,9 @@ router.post('/login', function(req, res) {
 						req.session.user_id = users[0].id;
 						req.session.user_email = users[0].email;
 
-						res.redirect('/profile/:id');
+						res.redirect('/user_info/:id');
+					} else{
+						res.redirect('/sign-in');
 					}
 			});
 		}else{
