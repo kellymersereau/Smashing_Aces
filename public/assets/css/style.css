@@ -31,3 +31,11 @@ main {
 .row{
 	margin-bottom: auto !important;
 }
+
+a:hover{
+	color: #69f0ae;
+}
+
+.validate{
+	color: #69f0ae;
+}
