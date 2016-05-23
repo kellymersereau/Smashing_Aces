@@ -28,10 +28,14 @@ router.get('/profile', function(req,res) {
 	res.render('user/user_info');
 });
 
+router.get('/update/:id', function(req, res){
+	res.redirect('/update');
+});
+
 router.get('/sign-out', function(req,res) {
   req.session.destroy(function(err) {
      res.redirect('/')
-  })
+  });
 });
 
 //if user trys to sign in with the wrong password or email tell them that on the page
@@ -88,6 +92,15 @@ router.post('/create', function(req,res) {
 				});
 
 			}
+	});
+});
+
+router.put('/update', function(req, res){
+	var condition = "id = " + req.params.id;
+
+
+	user.update({'email': req.body.email}, condition, function(req, res){
+		res.send('E-mail updated!');
 	});
 });
 

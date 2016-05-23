@@ -4,15 +4,15 @@
     <h3 class="thin center-align"> User Profile </h3>
     	<ul class="collection with-header">
     		<li class="collection-header center-align">
-    			<h4><img src="{{this.photo}}" class="circle responsive-img"> {{this.username}}</h4>
+    			<h4><img src="{{users.photo}}" class="circle responsive-img"> {{users.username}}</h4>
     		</li>
     		<li class="collection-item">
-      			<h5 class="thin">User Id #: {{this.id}}</h5>
+      			<h5 class="thin">User Id #: {{users.id}}</h5>
     		</li>
     		<li class="collection-item">
           <div class="row">
             <div class="col s10">
-    	     		<h5 class="thin">E-mail: {{this.email}}</h5>
+    	     		<h5 class="thin">E-mail: {{users.email}}</h5>
             </div>
             <div class="col s2 align-right">
               <button data-target="modal4" class="waves-effect waves-green waves-accent-4 btn-flat modal-trigger right-align"><i class="material-icons">mode_edit</i>  edit</button>
@@ -42,7 +42,7 @@
         <li class="collection-item">
           <div class="row">
             <div class="col s10">
-              <h5 class="thin">Play money in Bank: ${{this.play_money}}</h5>
+              <h5 class="thin">Play money in Bank: ${{users.play_money}}</h5>
             </div>
             <div class="col s2 align-right">
               <button data-target="modal3" class="waves-effect waves-green waves-accent-4 btn-flat modal-trigger right-align"><i class="material-icons right-align">add</i>  add</button>
@@ -51,7 +51,7 @@
                 <div class="modal-content">
                   <h4 class="center-align">Add Money to Bank</h4>
                   <br>
-                  <form class="col s12" action="/user/update" method="POST">
+                  <form class="col s12" action="/user/update/{{users.id}}?_method=PUT" method="POST">
                   <div class="row">
                     <div class="input-field col s12">
                       <input id="playMoney" type="text" class="validate">
