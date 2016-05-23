@@ -21,23 +21,6 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'cards_db'
-});
-
-connection.connect(function(err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  };
-
-  console.log('connected as id ' + connection.threadId);
-})
-
 
 var application_controllers = require('./controllers/application_controllers.js');
 var cards_controller = require('./controllers/cards_controller.js');

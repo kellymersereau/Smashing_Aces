@@ -43,7 +43,7 @@
           </li>
           {{#if logged_in}}
           <li>
-            <a href="/info"><i class="material-icons">person</i></a>
+            <a href="/user_info"><i class="material-icons">person</i></a>
           </li>
           {{/if}}
         </ul>
@@ -53,10 +53,6 @@
             <li>
               <a href="/home"><i class="material-icons right">home</i></a>
             </li>
-            <li>
-              <a href="/info"><i class="material-icons right">info</i></a>
-            </li>
-            {{#if logged_in}}
             <li>
               <a href="#modal2" class="modal-trigger"><i class="material-icons">info</i></a>
               <!-- Modal Structure -->
@@ -73,6 +69,10 @@
                 </div>
               </div>
             </li>
+            {{#if logged_in}}
+            <li>
+              <a href="/user_info"><i class="material-icons">person</i></a>
+            </li>
             {{/if}}
           </ul>
         </div>
@@ -81,6 +81,33 @@
 
 
       {{{body}}}
+  <footer class="page-footer green darken-2">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Smashing Aces</h5>
+          <p class="grey-text text-lighten-4 thin">We are a group of students from Rutger's Coding Bootcamp working hard to become Full Stack Web Developers.  Three Card Poker is one of our group projects for this bootcamp and any suggestions on how to expand and develop this project is greatly appreciated.</p>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Three Card Poker</h5>
+          <ul>
+            <li><a class="white-text thin" href="/user/home">Home</a></li>
+            <li><a class="white-text thin" href="/user/sign_in">Sign in</a></li>
+            <li><a class="white-text thin" href="/user/new">Sign up</a></li>
+            <li><a class="white-text thin" href="/user/profile">Update Profile</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text thin" href="https://github.com/Kevarnold02/Smashing_Aces">Smashing Aces Github</a></li>
+            <li><a class="white-text thin" href="https://github.com/Kevarnold02">Kevin Arnold Github</a></li>
+            <li><a class="white-text thin" href="https://github.com/DavidDaskal">David Daskal Github</a></li>
+            <li><a class="white-text thin" href="https://github.com/kellymersereau">Kelly Mersereau Github</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
     <footer class="page-footer green darken-4">
       <div class="footer-copyright">

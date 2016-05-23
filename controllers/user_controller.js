@@ -24,6 +24,10 @@ router.get('/sign-in', function(req,res) {
 	res.render('user/sign_in');
 });
 
+router.get('/profile', function(req,res) {
+	res.render('user/user_info');
+});
+
 router.get('/sign-out', function(req,res) {
   req.session.destroy(function(err) {
      res.redirect('/')

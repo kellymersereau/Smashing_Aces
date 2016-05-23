@@ -1,31 +1,74 @@
 {{!-- user information handlebars --}}
+<div class="container">
+  <div class="section">
+    <h3 class="thin center-align"> User Profile </h3>
+    	<ul class="collection with-header">
+    		<li class="collection-header center-align">
+    			<h4><img src="{{this.photo}}" class="circle responsive-img"> {{this.username}}</h4>
+    		</li>
+    		<li class="collection-item">
+      			<h5 class="thin">User Id #: {{this.id}}</h5>
+    		</li>
+    		<li class="collection-item">
+          <div class="row">
+            <div class="col s10">
+    	     		<h5 class="thin">E-mail: {{this.email}}</h5>
+            </div>
+            <div class="col s2 align-right">
+              <button data-target="modal4" class="waves-effect waves-green waves-accent-4 btn-flat modal-trigger right-align"><i class="material-icons">mode_edit</i>  edit</button>
+              <!-- Modal Structure -->
+              <div id="modal4" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                  <h4 class="center-align">Edit E-mail</h4>
+                  <br>
+                  <form class="col s12" action="/user/update" method="POST">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="email" type="email" class="validate">
+                      <label for="email">Email</label>
+                    </div>
+                  </div>
+                  <button class="btn waves-effect waves-light green lighten-2 center-align" type="submit" name="action">Submit
+                    <i class="material-icons right green lighten-2">send</i>
+                  </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+    		</li>
 
-<div class="divider"></div>
-	<div class="section">
-  	<ul class="collection with-header">
-  		<li class="collection-header center-align">
-  			<h5><img src="{{this.photo}}" class="circle responsive-img"> {{this.username}}</h5>
-  		</li>
-  		<li class="collection-item center-align">
-  			User Id #: {{this.id}}
-  		</li>
-  		<li class="collection-item center-align">
-  			E-mail: {{this.email}}
-  		</li>
-  		<li class="collection-item center center-align">
-  			Play money in Bank: ${{this.play_money}}
-  		</li>
-  		<li class="collection-item center-align">
-  			Bitcoin Money in Bank: ${{this.bit_coins}}
-  		</li>
-  	</ul>
+
+        <li class="collection-item">
+          <div class="row">
+            <div class="col s10">
+              <h5 class="thin">Play money in Bank: ${{this.play_money}}</h5>
+            </div>
+            <div class="col s2 align-right">
+              <button data-target="modal3" class="waves-effect waves-green waves-accent-4 btn-flat modal-trigger right-align"><i class="material-icons right-align">add</i>  add</button>
+              <!-- Modal Structure -->
+              <div id="modal3" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                  <h4 class="center-align">Add Money to Bank</h4>
+                  <br>
+                  <form class="col s12" action="/user/update" method="POST">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="playMoney" type="text" class="validate">
+                      <label for="playMoney">Play Money</label>
+                    </div>
+                  </div>
+                  <button class="btn waves-effect waves-light green lighten-2 align-center" type="submit" name="action">Submit
+                    <i class="material-icons right green lighten-2">send</i>
+                  </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+    	</ul>
   </div>
 </div>
 
-</div>
-<div class="divider"></div>
-	<div class="section">
-		
-	  <h5>Section 2</h5>
-	  <p>Stuff</p>
-	</div>
+
