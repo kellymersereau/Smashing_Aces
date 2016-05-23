@@ -285,16 +285,16 @@ function getWinner(dealer,player) {
 			payOuts('wins',player);
 		}
 		else if ((Number(player.highPairCard)) < (Number(dealer.highPairCard))) {
-			console.log('loss',player);
+			payOuts('loss',player);
 		}
 		else { 
 			if ((Number(player.kicker)) > (Number(dealer.kicker))){
-				console.log('wins',player);
+				payOuts('wins',player);
 			}
 			else if ((Number(player.kicker)) < (Number(dealer.kicker))){
-				console.log('loss',player);
+				payOuts('loss',player);
 			}
-			else { console.log('push',player); }
+			else { payOuts('push',player); }
 
 		}
 	}
