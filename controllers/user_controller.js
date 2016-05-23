@@ -32,6 +32,10 @@ router.get('/update/:id', function(req, res){
 	res.redirect('/update');
 });
 
+router.get('/addMoney/:id', function(req, res){
+	res.redirect('/addMoney');
+});
+
 router.get('/sign-out', function(req,res) {
   req.session.destroy(function(err) {
      res.redirect('/')
@@ -98,10 +102,29 @@ router.post('/create', function(req,res) {
 router.put('/update', function(req, res){
 	var condition = "id = " + req.params.id;
 
-
 	user.update({'email': req.body.email}, condition, function(req, res){
 		res.send('E-mail updated!');
 	});
 });
 
+router.put('/addMoney', function(req, res){
+	var condition = "id = " + req.params.id;
+
+	user.findOne(condition, function(req, res){
+		newMoney = parseInt(res.play_money) + parseInt(req.body.playMoney);
+		console.log(newMoney);
+	});
+
+	user.update({'play_money': playMoney}, condition, function(req, res){
+		res.send('Money added to account!');
+	});
+});
+
+router.delete('/delete/:id', function(req,res) {
+	var condition = 'id = ' + req.params.id;
+
+	user.delete(condition, function(data){
+		res.redirect('/home');
+	});
+});
 module.exports = router;

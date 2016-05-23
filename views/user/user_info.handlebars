@@ -51,7 +51,7 @@
                 <div class="modal-content">
                   <h4 class="center-align">Add Money to Bank</h4>
                   <br>
-                  <form class="col s12" action="/user/update/{{users.id}}?_method=PUT" method="POST">
+                  <form class="col s12" action="/user/addMoney/{{users.id}}?_method=PUT" method="POST">
                   <div class="row">
                     <div class="input-field col s12">
                       <input id="playMoney" type="text" class="validate">
@@ -66,6 +66,13 @@
               </div>
             </div>
           </div>
+        </li>
+        <li class="center">
+          <form action="/delete/{{users.id}}?_method=DELETE" method="POST">
+            <button class="btn btn-large waves-effect waves-light grey darken-4 align-center bold" type="submit">Delete Account  
+              <i class="material-icons right grey darken-4">highlight_off</i>
+            </button>
+          </form>
         </li>
     	</ul>
   </div>
