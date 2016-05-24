@@ -27,9 +27,7 @@ app.get('/',function (req,res){
 });
 
 app.post('/antebets',function(req,res){
-	// res.send('hii');
-	// console.log('hello');
-	// console.log(req.body);
+	
 	antebet = parseInt(req.body.antebet);
 
 	res.render('choose_play',{bet : antebet});
@@ -99,7 +97,6 @@ app.post('/playdecision',function(req,res){
 			// });
 
 			connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
-				// result = [{play_money: 30}]; //testing
 
 				switch (capture) {
 
@@ -176,17 +173,15 @@ app.post('/playdecision',function(req,res){
 						break;
 
 				}
-			});
+			}); //END OF SQL QUERY TO GET PLAYER'S CURRENT BALANCE AND ADD/SUBTRACT BET DEPENDING ON WINNINGS
 
 
 
+		}); //End of SQL QUERY TO SELECT RANDOM CARDS FOR PLAYER AND START COMPARING
 
+	} //END OF IF STATEMENT IF PLAYER WANTED TO BET AND DID NOT FOLD
 
-		});
-
-	}
-
-});
+}); //END OF POST /PLAYDECISION
 
 
 // var orm = require('./orm.js');
@@ -202,57 +197,57 @@ BestHandInfo = function(nameOfHand,rankOfHand,highCard) {
 }
 
 
-function dealCards() {
+// function dealCards() {
 
-	var	dealerHand = [];
-	var	playerHand = [];
-	var	dealerCardRanks = [];
-	var	dealerSuites = [];
-	var	playerCardRanks = [];
-	var	playerSuites = [];
+// 	var	dealerHand = [];
+// 	var	playerHand = [];
+// 	var	dealerCardRanks = [];
+// 	var	dealerSuites = [];
+// 	var	playerCardRanks = [];
+// 	var	playerSuites = [];
 
-	connection.query("SELECT * FROM cards order by rand()", function(err, result){
-
-
-	dealerHand.push({id:result[0].id, rank: result[0].rank, suite: result[0].suite, img:result[0].image_link});
-	playerHand.push({id:result[1].id, rank: result[1].rank, suite: result[1].suite, img:result[1].image_link});
-
-	dealerHand.push({id:result[2].id, rank: result[2].rank, suite: result[2].suite, img:result[2].image_link});
-	playerHand.push({id:result[3].id, rank: result[3].rank, suite: result[3].suite, img:result[3].image_link});
-
-	dealerHand.push({id:result[4].id, rank: result[4].rank, suite: result[4].suite, img:result[4].image_link});
-	playerHand.push({id:result[5].id, rank: result[5].rank, suite: result[5].suite, img:result[5].image_link});
+// 	connection.query("SELECT * FROM cards order by rand()", function(err, result){
 
 
-		for (i = 0; i < 3;i++) {
-			dealerCardRanks.push(dealerHand[i].rank);
-			dealerSuites.push(dealerHand[i].suite);
+// 	dealerHand.push({id:result[0].id, rank: result[0].rank, suite: result[0].suite, img:result[0].image_link});
+// 	playerHand.push({id:result[1].id, rank: result[1].rank, suite: result[1].suite, img:result[1].image_link});
 
-			playerCardRanks.push(playerHand[i].rank);
-			playerSuites.push(playerHand[i].suite);
+// 	dealerHand.push({id:result[2].id, rank: result[2].rank, suite: result[2].suite, img:result[2].image_link});
+// 	playerHand.push({id:result[3].id, rank: result[3].rank, suite: result[3].suite, img:result[3].image_link});
 
-		} 
-
-
-
-	console.log('ranks and suites')
-	console.log(dealerCardRanks,dealerSuites);
-	console.log(playerCardRanks,playerSuites);
-
-	bestPlayerHand = getBestHand(playerCardRanks,playerSuites);
-
-	bestDealerHand = getBestHand(dealerCardRanks,dealerSuites);
-
-	console.log(bestDealerHand);
-	console.log(bestPlayerHand);
-
-	getWinner(bestDealerHand,bestPlayerHand);
+// 	dealerHand.push({id:result[4].id, rank: result[4].rank, suite: result[4].suite, img:result[4].image_link});
+// 	playerHand.push({id:result[5].id, rank: result[5].rank, suite: result[5].suite, img:result[5].image_link});
 
 
-	});
+// 		for (i = 0; i < 3;i++) {
+// 			dealerCardRanks.push(dealerHand[i].rank);
+// 			dealerSuites.push(dealerHand[i].suite);
+
+// 			playerCardRanks.push(playerHand[i].rank);
+// 			playerSuites.push(playerHand[i].suite);
+
+// 		} 
 
 
-};
+
+// 	console.log('ranks and suites')
+// 	console.log(dealerCardRanks,dealerSuites);
+// 	console.log(playerCardRanks,playerSuites);
+
+// 	bestPlayerHand = getBestHand(playerCardRanks,playerSuites);
+
+// 	bestDealerHand = getBestHand(dealerCardRanks,dealerSuites);
+
+// 	console.log(bestDealerHand);
+// 	console.log(bestPlayerHand);
+
+// 	getWinner(bestDealerHand,bestPlayerHand);
+
+
+// 	});
+
+
+// };
 
 
 
