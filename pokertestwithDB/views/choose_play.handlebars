@@ -1,6 +1,20 @@
 
 <p>Your antebet is: {{this.bet}}</p>
 
+
+<p>Player's hand</p>
+<br>
+<div>
+	{{#each playerHand}}
+		<img src='/assets/cardimages/{{this.img}}'>
+	{{/each}}
+</div>
+<br>
+
+
+
+
+
 <form action = '/playdecision' method = 'post'>
   <input type="hidden" name="antebet" value="{{this.bet}}">
   <input type="radio" name="decision" value="fold"> Fold<br>

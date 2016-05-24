@@ -23,29 +23,24 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 app.get('/',function (req,res){
-	res.render('index');
+
+	connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
+	res.render('index',{play_money:result[0].play_money});
+		
+		});
 });
 
 app.post('/antebets',function(req,res){
 	
-	antebet = parseInt(req.body.antebet);
 
-	res.render('choose_play',{bet : antebet});
+	connection.query("SELECT * FROM cards order by rand()", function(err, result){
 
-});
-
-app.post('/playdecision',function(req,res){
-	if (req.body.decision === "bet"){
-		//dealcards(); // we'll do this later
-
-		var	dealerHand = [];
+				var	dealerHand = [];
 		var	playerHand = [];
 		var	dealerCardRanks = [];
 		var	dealerSuites = [];
 		var	playerCardRanks = [];
 		var	playerSuites = [];
-
-		connection.query("SELECT * FROM cards order by rand()", function(err, result){
 
 
 			dealerHand.push({id:result[0].id, rank: result[0].rank, suite: result[0].suite, img:result[0].image_link});
@@ -69,6 +64,46 @@ app.post('/playdecision',function(req,res){
 
 
 
+
+	antebet = parseInt(req.body.antebet);
+
+	res.render('choose_play',{
+		bet : antebet,
+		playerHand: playerHand
+	});
+
+
+
+app.post('/playdecision',function(req,res){
+	if (req.body.decision === "bet"){
+		//dealcards(); // we'll do this later
+
+		
+
+		// connection.query("SELECT * FROM cards order by rand()", function(err, result){
+
+
+		// 	dealerHand.push({id:result[0].id, rank: result[0].rank, suite: result[0].suite, img:result[0].image_link});
+		// 	playerHand.push({id:result[1].id, rank: result[1].rank, suite: result[1].suite, img:result[1].image_link});
+
+		// 	dealerHand.push({id:result[2].id, rank: result[2].rank, suite: result[2].suite, img:result[2].image_link});
+		// 	playerHand.push({id:result[3].id, rank: result[3].rank, suite: result[3].suite, img:result[3].image_link});
+
+		// 	dealerHand.push({id:result[4].id, rank: result[4].rank, suite: result[4].suite, img:result[4].image_link});
+		// 	playerHand.push({id:result[5].id, rank: result[5].rank, suite: result[5].suite, img:result[5].image_link});
+
+
+		// 	for (i = 0; i < 3;i++) {
+		// 		dealerCardRanks.push(dealerHand[i].rank);
+		// 		dealerSuites.push(dealerHand[i].suite);
+
+		// 		playerCardRanks.push(playerHand[i].rank);
+		// 		playerSuites.push(playerHand[i].suite);
+
+		// 	} 
+
+
+
 			console.log('ranks and suites')
 			console.log(dealerCardRanks,dealerSuites);
 			console.log(playerCardRanks,playerSuites);
@@ -82,19 +117,13 @@ app.post('/playdecision',function(req,res){
 
 			var capture = getWinner(bestDealerHand,bestPlayerHand);
 
-			function fuckIt(res, value, capture){
+			function cashAdjust(res, value, capture){
 				connection.query("UPDATE users SET play_money = ? WHERE id = ?", [value, 1], function(err, result){
-					res.send(value + ' ' + capture)
+					res.redirect('/');
 				});
 				
 			}
 
-			//this works
-			// connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
-			// 	//result = [{play_money: 30}];
-			// 	var newBalance = parseInt(result[0].play_money) + parseInt(req.body.antebet);
-			// 	res.sendStatus(newBalance);
-			// });
 
 			connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
 
@@ -109,7 +138,7 @@ app.post('/playdecision',function(req,res){
 							console.log(newBalance)
 							console.log('-----------------------')
 							// res.sendStatus(newBalance);
-							fuckIt(res, newBalance, capture);
+							cashAdjust(res, newBalance, capture);
 							console.log('hello inside query');
 							// res.render('showcards', {
 							
@@ -131,7 +160,7 @@ app.post('/playdecision',function(req,res){
 						console.log(newBalance)
 						console.log('-----------------------')
 						//res.sendStatus(newBalance);
-						fuckIt(res, newBalance, capture);
+						cashAdjust(res, newBalance, capture);
 						console.log('hello inside query');
 						// res.render('showcards', {
 						
@@ -147,7 +176,7 @@ app.post('/playdecision',function(req,res){
 						console.log(newBalance)
 						console.log('-----------------------')
 						//res.sendStatus(newBalance);
-						fuckIt(res, newBalance, capture);
+						cashAdjust(res, newBalance, capture);
 						console.log('hello inside query');
 						// res.render('showcards', {
 						
@@ -162,7 +191,7 @@ app.post('/playdecision',function(req,res){
 						console.log(newBalance)
 						console.log('-----------------------')
 						//res.sendStatus(newBalance);
-						fuckIt(res, newBalance, capture);
+						cashAdjust(res, newBalance, capture);
 						console.log('hello inside query');
 						// res.render('showcards', {
 						
@@ -176,12 +205,28 @@ app.post('/playdecision',function(req,res){
 			}); //END OF SQL QUERY TO GET PLAYER'S CURRENT BALANCE AND ADD/SUBTRACT BET DEPENDING ON WINNINGS
 
 
+		  } //END OF IF STATEMENT IF PLAYER WANTED TO BET AND DID NOT FOLD	
 
-		}); //End of SQL QUERY TO SELECT RANDOM CARDS FOR PLAYER AND START COMPARING
+	else {
+		connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
 
-	} //END OF IF STATEMENT IF PLAYER WANTED TO BET AND DID NOT FOLD
+			newBalance = result[0].play_money - antebet;
+			cashAdjust(res,newBalance,capture);
 
-}); //END OF POST /PLAYDECISION
+			});
+
+		
+	}
+
+
+		}); //End of POST /PLAYDECISION
+	}); //END OF SQL QUERY
+}); //END OF POST /ANTEBETS
+
+
+	
+
+
 
 
 // var orm = require('./orm.js');
