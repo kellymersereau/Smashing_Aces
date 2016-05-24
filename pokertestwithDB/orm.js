@@ -1,8 +1,7 @@
 /*
 Here is the O.R.M. where you write functions that takes inputs and conditions and turn them into database commands like SQL.
 */
-var connection = require('../config/connection.js');
-
+ var connection = require('./connection.js');
 function printQuestionMarks(num){
   var arr = [];
 
@@ -26,7 +25,7 @@ function objToSql(ob){
 //these orm functions and querystrings will need to be changed to match the format of our databases and the queries we will need to run.
 var orm = {
     findOne: function(tableInput, condition, cb) {
-        var queryString = 'SELECT * FROM ' + 'users';
+        var queryString = 'SELECT * FROM ' + tableInput;
         queryString = queryString + ' WHERE ';
         queryString = queryString + condition;
         console.log(queryString);

@@ -27,6 +27,8 @@
     "handlebars-helper-css": "^0.1.0",
     "materialize-css": "^0.97.6",
     "method-override": "^2.3.5",
-    "mysql": "^2.10.2"
+    "morgan": "^1.7.0",
+    "mysql": "^2.10.2",
+    "nodemon": "^1.9.2"
   }
 }

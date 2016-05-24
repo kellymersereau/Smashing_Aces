@@ -14,3 +14,28 @@ body {
 main {
   flex: 1 0 auto;
 }
+
+.modal-content{
+	color: #000000;
+	line-height: 15px;
+	font-size: 15px;
+}
+.modal{
+	opacity: 0.0;
+}
+.lean-overlay{
+	background: #f5f5f5;
+	opacity: 0.0 !important;
+}
+
+.row{
+	margin-bottom: auto !important;
+}
+
+a:hover{
+	color: #69f0ae;
+}
+
+.validate{
+	color: #69f0ae;
+}

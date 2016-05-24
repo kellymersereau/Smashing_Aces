@@ -1,13 +1,20 @@
 {{!-- create a new user --}}
 
-<div class="row center-align">
+<br>
+  <div class="row center-align">
+  <div class="row center-align">
+    <h3 class="thin">
+    Create an account to start playing!
+    </h3>
+  </div>
+    <br>
     <form class="col s12" action="/user/create" method="POST">
       <div class="row">
         <div class="input-field col s12">
           <input id="uname" type="text" class="validate" name="username">
           <label for="uname">Username: </label>
         </div>
-
+      </div>
       <div class="row">
         <div class="input-field col s12">
           <input id="uphoto" type="text" class="validate" name="photo">
@@ -29,9 +36,10 @@
         </div>
       </div>
 
-      <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-        <i class="material-icons right">send</i>
+      <button class="btn waves-effect waves-light green lighten-2" type="submit" name="action">Submit
+        <i class="material-icons right green lighten-2">send</i>
       </button>
 
       {{!-- on click send to route /user/create to check if the emal has already been used --}}
     </form>
+  </div>
