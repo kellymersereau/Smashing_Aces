@@ -60,10 +60,10 @@ app.post('/antebets',function(req,res){
 
 
 			for (i = 0; i < 3;i++) {
-				dealerCardRanks.push(dealerHand[i].rank);
+				dealerCardRanks.push(parseInt(dealerHand[i].rank));
 				dealerSuites.push(dealerHand[i].suite);
 
-				playerCardRanks.push(playerHand[i].rank);
+				playerCardRanks.push(parseInt(playerHand[i].rank));
 				playerSuites.push(playerHand[i].suite);
 
 			} 
@@ -474,18 +474,18 @@ function payOuts(playerHandOutcome,playerHand,antebet,pairPlus) {
 			amountWonLost = amountWonLost;
 			break;
 		case ('wins'):
-			amountWonLost = antebet * 2; // playbet = antetbet so if you win hand, you get antebet * 2 added to balance
+			amountWonLost = amountWonLost + (antebet * 2); // playbet = antetbet so if you win hand, you get antebet * 2 added to balance
 			break;
 		case ('loss'):
-			amountWonLost = antebet * (-2);
+			amountWonLost = amountWonLost - (antebet*2);
 			break;
 
 	}
 
 
-	if ((playerHand.rank > 1) && (pairPlus > 0)) {
+	if ((playerHand.rankOfHand > 1) && (pairPlus > 0)) {
 
-			switch (playerHand.rank){
+			switch (playerHand.rankOfHand){
 
 				case (2):
 					amountWonLost = amountWonLost + pairPlus;
@@ -507,7 +507,7 @@ function payOuts(playerHandOutcome,playerHand,antebet,pairPlus) {
 		amountWonLost = amountWonLost - pairPlus;
 	}
 
-	switch (playerHand.rank) {
+	switch (playerHand.rankOfHand) {
 
 		case (4):
 			amountWonLost = amountWonLost + antebet;
