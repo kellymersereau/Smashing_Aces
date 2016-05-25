@@ -1,3 +1,4 @@
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -30,17 +31,22 @@ app.get('/',function (req,res){
 		});
 });
 
+var	dealerHand = [];
+var	playerHand = [];
+var	dealerCardRanks = [];
+var	dealerSuites = [];
+var	playerCardRanks = [];
+var	playerSuites = [];
+
+
+
 app.post('/antebets',function(req,res){
 	
 
 	connection.query("SELECT * FROM cards order by rand()", function(err, result){
 
-				var	dealerHand = [];
-		var	playerHand = [];
-		var	dealerCardRanks = [];
-		var	dealerSuites = [];
-		var	playerCardRanks = [];
-		var	playerSuites = [];
+		
+	
 
 
 			dealerHand.push({id:result[0].id, rank: result[0].rank, suite: result[0].suite, img:result[0].image_link});
@@ -63,155 +69,111 @@ app.post('/antebets',function(req,res){
 			} 
 
 
+		
 
 
 	antebet = parseInt(req.body.antebet);
 
+	pairPlusBet = parseInt(req.body.pairplusbet);
+
+
 	res.render('choose_play',{
+		pairbet:pairPlusBet,
 		bet : antebet,
-		playerHand: playerHand
+		playerHand: playerHand,
+		dealerHand:dealerHand
 	});
 
+  });
 
+});
+
+//var resultFromHand=true;
 
 app.post('/playdecision',function(req,res){
 	if (req.body.decision === "bet"){
-		//dealcards(); // we'll do this later
-
 		
 
-		// connection.query("SELECT * FROM cards order by rand()", function(err, result){
 
 
-		// 	dealerHand.push({id:result[0].id, rank: result[0].rank, suite: result[0].suite, img:result[0].image_link});
-		// 	playerHand.push({id:result[1].id, rank: result[1].rank, suite: result[1].suite, img:result[1].image_link});
-
-		// 	dealerHand.push({id:result[2].id, rank: result[2].rank, suite: result[2].suite, img:result[2].image_link});
-		// 	playerHand.push({id:result[3].id, rank: result[3].rank, suite: result[3].suite, img:result[3].image_link});
-
-		// 	dealerHand.push({id:result[4].id, rank: result[4].rank, suite: result[4].suite, img:result[4].image_link});
-		// 	playerHand.push({id:result[5].id, rank: result[5].rank, suite: result[5].suite, img:result[5].image_link});
-
-
-		// 	for (i = 0; i < 3;i++) {
-		// 		dealerCardRanks.push(dealerHand[i].rank);
-		// 		dealerSuites.push(dealerHand[i].suite);
-
-		// 		playerCardRanks.push(playerHand[i].rank);
-		// 		playerSuites.push(playerHand[i].suite);
-
-		// 	} 
-
-
-
-			console.log('ranks and suites')
-			console.log(dealerCardRanks,dealerSuites);
-			console.log(playerCardRanks,playerSuites);
+			console.log('ranks and suites');
+			
+			console.log('this is player ranks '+playerCardRanks,playerSuites);
+			console.log('this is dealer ranks '+dealerCardRanks,dealerSuites);
+		
 
 			bestPlayerHand = getBestHand(playerCardRanks,playerSuites);
 
 			bestDealerHand = getBestHand(dealerCardRanks,dealerSuites);
 
-			console.log(bestDealerHand);
+			console.log('VARIABLES GOING INTO GETWINNER');
 			console.log(bestPlayerHand);
+			console.log(bestDealerHand);
+			console.log('antebet'+antebet);
+			console.log('pair pairPlusBet '+pairPlusBet);
+			
+			
 
-			var capture = getWinner(bestDealerHand,bestPlayerHand);
 
-			function cashAdjust(res, value, capture){
-				connection.query("UPDATE users SET play_money = ? WHERE id = ?", [value, 1], function(err, result){
-					res.redirect('/');
-				});
-				
-			}
+			resultFromHand = getWinner(bestDealerHand,bestPlayerHand,antebet,pairPlusBet); //Money to add or deduct from current balance
+
+
+
+
 
 
 			connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
 
-				switch (capture) {
+				console.log("resultfromhand before updated query: "+resultFromHand);
 
-					case ('dealer out. balance = balance + antebet'):
-						//do a sql query grab their balance - add the antebet to it and do an update to their balance with the new number
-						console.log('works');
-						
-							var newBalance = parseInt(result[0].play_money) + parseInt(req.body.antebet);
-							console.log('-----------------------')
-							console.log(newBalance)
-							console.log('-----------------------')
-							// res.sendStatus(newBalance);
-							cashAdjust(res, newBalance, capture);
-							console.log('hello inside query');
-							// res.render('showcards', {
-							
-							// 	play_money:result[0].play_money
-							// });
+				console.log('win or lose = '+resultFromHand);
+				var newBalance = parseInt(result[0].play_money) + resultFromHand;
+				console.log('this is the new balance: '+newBalance);
+				cashAdjust(res,newBalance);
 
-							// res.render('showcards', {
-							// 	dealerHand: dealerHand,
-							// 	playerHand: playerHand,
-							// 	capture : capture
 
-							// });
-						//return 'dealer out';
-						break;
-					case ('push. balance = balance'):
-							
-						var newBalance = parseInt(result[0].play_money);
-						console.log('-----------------------')
-						console.log(newBalance)
-						console.log('-----------------------')
-						//res.sendStatus(newBalance);
-						cashAdjust(res, newBalance, capture);
-						console.log('hello inside query');
-						// res.render('showcards', {
-						
-						// 	play_money:result[0].play_money
-						// });
+				var playerHandTwo = playerHand;
+				var dealerHandTwo = dealerHand;
 
-						//return 'push. balance = balance';
-						break;
-					case ('balance = balance + (antebet *2)'):
-							
-						var newBalance = parseInt(result[0].play_money) + parseInt(req.body.antebet)*2;
-						console.log('-----------------------')
-						console.log(newBalance)
-						console.log('-----------------------')
-						//res.sendStatus(newBalance);
-						cashAdjust(res, newBalance, capture);
-						console.log('hello inside query');
-						// res.render('showcards', {
-						
-						// 	play_money:result[0].play_money
-						// });
-
-						//return 'balance = balance + (antebet *2)';
-						break;
-					case ('balance = balance - (antebet * 2)'):
-						var newBalance = parseInt(result[0].play_money) - parseInt(req.body.antebet)*2;
-						console.log('-----------------------')
-						console.log(newBalance)
-						console.log('-----------------------')
-						//res.sendStatus(newBalance);
-						cashAdjust(res, newBalance, capture);
-						console.log('hello inside query');
-						// res.render('showcards', {
-						
-						// 	play_money:result[0].play_money
-						// });
-
-						//return 'balance = balance - (antebet * 2)';
-						break;
-
+				var showCards = {
+					playerHand:playerHandTwo,
+					dealerHand:dealerHandTwo,
+					resultFromHand:resultFromHand
 				}
+
+				playerHand = [];
+				dealerHand = [];
+				dealerCardRanks = [];
+				dealerSuites = [];
+				playerCardRanks = [];
+				playerSuites = [];
+
+				 res.render('showcards',showCards)
+			
+				
 			}); //END OF SQL QUERY TO GET PLAYER'S CURRENT BALANCE AND ADD/SUBTRACT BET DEPENDING ON WINNINGS
 
-
+			function cashAdjust(res, value){
+				connection.query("UPDATE users SET play_money = ? WHERE id = ?", [value, 1], function(err, result){
+					
+					// res.redirect('/');
+				});
+				
+			}
 		  } //END OF IF STATEMENT IF PLAYER WANTED TO BET AND DID NOT FOLD	
 
 	else {
 		connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
 
-			newBalance = result[0].play_money - antebet;
-			cashAdjust(res,newBalance,capture);
+			newBalance = result[0].play_money - antebet - pairPlusBet;
+			cashAdjust(res,newBalance);
+			dealerHand = [];
+			playerHand = [];
+			dealerCardRanks = [];
+			dealerSuites = [];
+			playerCardRanks = [];
+			playerSuites = [];
+			res.redirect('/');
 
 			});
 
@@ -220,8 +182,8 @@ app.post('/playdecision',function(req,res){
 
 
 		}); //End of POST /PLAYDECISION
-	}); //END OF SQL QUERY
-}); //END OF POST /ANTEBETS
+// 	}); //END OF SQL QUERY
+// }); //END OF POST /ANTEBETS
 
 
 	
@@ -242,57 +204,6 @@ BestHandInfo = function(nameOfHand,rankOfHand,highCard) {
 }
 
 
-// function dealCards() {
-
-// 	var	dealerHand = [];
-// 	var	playerHand = [];
-// 	var	dealerCardRanks = [];
-// 	var	dealerSuites = [];
-// 	var	playerCardRanks = [];
-// 	var	playerSuites = [];
-
-// 	connection.query("SELECT * FROM cards order by rand()", function(err, result){
-
-
-// 	dealerHand.push({id:result[0].id, rank: result[0].rank, suite: result[0].suite, img:result[0].image_link});
-// 	playerHand.push({id:result[1].id, rank: result[1].rank, suite: result[1].suite, img:result[1].image_link});
-
-// 	dealerHand.push({id:result[2].id, rank: result[2].rank, suite: result[2].suite, img:result[2].image_link});
-// 	playerHand.push({id:result[3].id, rank: result[3].rank, suite: result[3].suite, img:result[3].image_link});
-
-// 	dealerHand.push({id:result[4].id, rank: result[4].rank, suite: result[4].suite, img:result[4].image_link});
-// 	playerHand.push({id:result[5].id, rank: result[5].rank, suite: result[5].suite, img:result[5].image_link});
-
-
-// 		for (i = 0; i < 3;i++) {
-// 			dealerCardRanks.push(dealerHand[i].rank);
-// 			dealerSuites.push(dealerHand[i].suite);
-
-// 			playerCardRanks.push(playerHand[i].rank);
-// 			playerSuites.push(playerHand[i].suite);
-
-// 		} 
-
-
-
-// 	console.log('ranks and suites')
-// 	console.log(dealerCardRanks,dealerSuites);
-// 	console.log(playerCardRanks,playerSuites);
-
-// 	bestPlayerHand = getBestHand(playerCardRanks,playerSuites);
-
-// 	bestDealerHand = getBestHand(dealerCardRanks,dealerSuites);
-
-// 	console.log(bestDealerHand);
-// 	console.log(bestPlayerHand);
-
-// 	getWinner(bestDealerHand,bestPlayerHand);
-
-
-// 	});
-
-
-// };
 
 
 
@@ -447,12 +358,13 @@ function getBestHand (rankArr,suiteArr) {
 
 
 
-function getWinner(dealer,player) {
+function getWinner(dealer,player,antebet,pairplus) {
 
 
-
+	console.log(dealer);
 	if ((dealer.rankOfHand == 1) && (dealer.highToLow[0] < 12)) {
-		return payOuts('dealerOut',player);
+
+		return payOuts('dealerOut',player,antebet,pairplus);
 	}
 
 
@@ -461,12 +373,12 @@ function getWinner(dealer,player) {
 		if ((player.rankOfHand == 4) || (player.rankOfHand == 5) || (player.rankOfHand == 6)) {
 
 					 if (player.highToLow > dealer.highToLow) {
-					 	return payOuts('wins',player);
+					 	return payOuts('wins',player,antebet,pairplus);
 					 }
 					else if (player.highToLow < dealer.highToLow) {
-						return payOuts('loss',player); }
+						return payOuts('loss',player,antebet,pairplus); }
 					else {
-						 return payOuts('push',player);
+						 return payOuts('push',player,antebet,pairplus);
 					   }
 		}
 
@@ -497,98 +409,119 @@ function getWinner(dealer,player) {
 
 		
 		if (playerWins) {
-			return payOuts('wins',player);
+			return payOuts('wins',player,antebet,pairplus);
 		}
 		else if (dealerWins){
-			return payOuts('loss',player);
+			return payOuts('loss',player,antebet,pairplus);
 		}
-		else {return payOuts('push',player);}
+		else {return payOuts('push',player,antebet,pairplus);}
 		}
 
 	// if both have pairs
 
 	else if ((player.rankOfHand == 2) && (dealer.rankOfHand == 2)) {
 		if ((Number(player.highPairCard)) > (Number(dealer.highPairCard))) {
-			payOuts('wins',player);
+			return payOuts('wins',player,antebet,pairplus);
 		}
 		else if ((Number(player.highPairCard)) < (Number(dealer.highPairCard))) {
-			payOuts('loss',player);
+			return payOuts('loss',player,antebet,pairplus);
 		}
 		else { 
 			if ((Number(player.kicker)) > (Number(dealer.kicker))){
-				payOuts('wins',player);
+				return payOuts('wins',player,antebet,pairplus);
 			}
 			else if ((Number(player.kicker)) < (Number(dealer.kicker))){
-				payOuts('loss',player);
+				return payOuts('loss',player,antebet,pairplus);
 			}
-			else { payOuts('push',player); }
+			else { payOuts('push',player,antebet,pairplus); }
 
 		}
 	}
   }	
 	
 	else if (dealer.rankOfHand > player.rankOfHand) {
-		payOuts('loss',player);
+		return payOuts('loss',player,antebet,pairplus);
 	}
 	else if (dealer.rankOfHand < player.rankOfHand){
-		payOuts('wins',player);
+		return payOuts('wins',player,antebet,pairplus);
 	}
 	
 }
 
-function payOuts(playerHandOutcome,playerHand,pairPlus) {
+function payOuts(playerHandOutcome,playerHand,antebet,pairPlus) {
+
+	console.log("-------------betinfo------------------")
+	console.log(playerHandOutcome);
+	console.log('This is the players  hand rank '+playerHand.rankOfHand);
+	console.log('this is the players hand name' + playerHand.nameOfHand)
+	 console.log('antebet: '+antebet);
+	 console.log('pairPlus bet: '+pairPlus);
+
+	var amountWonLost=0;
+
+	console.log("------------TYPES OF");
+	console.log(typeof playerHand.rankOfHand);
+	console.log(typeof antebet);
+	console.log(typeof pairPlus);
 
 	switch (playerHandOutcome) {
 
 		
 		case ('dealerOut'):
-			return 'dealer out. balance = balance + antebet';
+			amountWonLost = antebet;
 			break;
 		case ('push'):
-			return 'push. balance = balance';
+			amountWonLost = amountWonLost;
 			break;
 		case ('wins'):
-			return 'balance = balance + (antebet *2)';
+			amountWonLost = antebet * 2; // playbet = antetbet so if you win hand, you get antebet * 2 added to balance
 			break;
 		case ('loss'):
-			return 'balance = balance - (antebet * 2)';
+			amountWonLost = antebet * (-2);
 			break;
 
 	}
+
 
 	if ((playerHand.rank > 1) && (pairPlus > 0)) {
 
 			switch (playerHand.rank){
 
 				case (2):
-					return 'balance = balance + pairPlus';
+					amountWonLost = amountWonLost + pairPlus;
 					break;
 				case (3):
-					return 'balance = balance + (pairPlus * 4)';
+					amountWonLost = amountWonLost + (pairPlus * 4);
 					break;
 				case (4):
-					return 'balance = balance + (pairPlus * 6)';
+					amountWonLost = amountWonLost + (pairPlus * 6);
 					break;
 				case (5):
-					return 'balance = balance + (pairPlus * 30)';
+					amountWonLost = amountWonLost + (pairPlus * 30);
 					break;
 				case (6):
-					return 'balance = balance + (pairPlus * 40)';
+					amountWonLost = amountWonLost + (pairPlus * 40);
 			}
+	}
+	else {
+		amountWonLost = amountWonLost - pairPlus;
 	}
 
 	switch (playerHand.rank) {
 
 		case (4):
-			return 'balance = balance + antebet';
+			amountWonLost = amountWonLost + antebet;
 			break;
 		case (5):
-			return 'balance = balance + (antebet * 4)';
+			amountWonLost = amountWonLost + (antebet * 4);
 			break;
 		case (6):
-			return 'balance = balance + (antbet * 5)';
+			amountWonLost = amountWonLost + (antbet * 5);
 			break;
 	}
+	console.log ('amountwonorLOST-------');
+	console.log(amountWonLost);
+	return amountWonLost;
 
 }
 
@@ -614,4 +547,19 @@ function payOuts(playerHandOutcome,playerHand,pairPlus) {
 
 var port = process.env.PORT || 3000;
 app.listen(port);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

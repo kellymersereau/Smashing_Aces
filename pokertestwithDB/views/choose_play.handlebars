@@ -1,5 +1,6 @@
 
 <p>Your antebet is: {{this.bet}}</p>
+<p>Your Pair Plus bet is: {{this.pairbet}}</p>
 
 
 <p>Player's hand</p>
@@ -11,6 +12,15 @@
 </div>
 <br>
 
+
+<p>Dealer hand</p>
+<br>
+<div>
+	{{#each dealerHand}}
+		<img src='/assets/cardimages/{{this.img}}'>
+	{{/each}}
+</div>
+<br>
 
 
 
