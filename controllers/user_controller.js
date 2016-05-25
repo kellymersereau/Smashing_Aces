@@ -57,7 +57,7 @@ router.get('/update/:id', function(req, res){
 	res.redirect('/update');
 });
 
-router.get('/addMoney/:id', function(req, res){
+router.post('/addMoney/:id', function(req, res){
 	res.redirect('/addMoney');
 });
 
@@ -151,7 +151,7 @@ router.put('/addMoney', function(req, res){
 });
 
 //for some reason, this route never gets hit. this is supposed to be the delete route. I suggest that instead of using delete, for now in the interest of time, we change the delete form submit button to a sign-out to kill the session and log the user out.
-router.get('/potato', function(req,res) {
+router.delete('/delete', function(req,res) {
 	console.log('hitting this')
 	// console.log('trying to delete ', req.body.id);
 	// console.log('trying to delete params', req.params.id);
@@ -167,7 +167,7 @@ router.get('/potato', function(req,res) {
 	// user.delete(req.body.name, function(data){
 	// 	res.redirect('/');
 	// });
-	res.send(200)
+	// res.send(200)
 });
 module.exports = router;
 

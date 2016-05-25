@@ -8,7 +8,7 @@ var logger = require('morgan');
 var app = express();
 
 //Serve static content for the app from the "public" directory in the application directory.
-
+//middleware gets used first, order is important.
 app.use(logger('dev'));
 app.use(express.static(process.cwd() + '/public'));
 
@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({
 
 app.use(session({
   secret: 'keyboard cat',
-  // resave: true,
-  // saveUninitialized: true,
+  resave: true,
+  saveUninitialized: true,
   cookie: {maxAge: 24*60*60*1000}
 }));
 // override with POST having ?_method=DELETE
