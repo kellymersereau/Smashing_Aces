@@ -18,8 +18,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(session({
   secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
+  //Not positive what resave and saveUninitialized do, but it works with leaving them commented out or to clean things up, deleting them.
+  // resave: true,
+  // saveUninitialized: true,
   cookie: {maxAge: 24*60*60*1000}
 }));
 // override with POST having ?_method=DELETE
