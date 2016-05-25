@@ -35,18 +35,20 @@ router.get('/profile/:id', function(req,res) {
 	//within a cb after user found, then res.render
 	// req.session.username = req.params.username; //use this
 	console.log('req.session is ', req.session);
-	console.log('req.session.id is ', req.session.id);
+	console.log('req.session.id is ', req.session.user_id);
+	// this is used to attach the user session to the profile page. 
 	req.session.id = req.params.id; //use this
-	console.log('req.session.id is ', req.session.id);
+	console.log('req.session.id is ', req.session.user_id);
 	console.log('req.params.id is ', req.params.id);
-
+	// I used req.params.id from above to set the condition in order for the findAll orm function to work properly.
 	var condition = "id=" + req.params.id; //use this
 	console.log('profile route condition ', condition);
 	console.log('profile route req.session ', req.session);
 	// var condition = "id=" + req.params.id;
 	user.findOne(condition, function(result){
 		console.log('this is the result', result[0].id);
-		res.render('user/user_info', {users: result[0]})
+		//using the users key with result[0] properly renders the user info onto the handlebars profile page.
+		res.render('user/user_info', {users: result[0]}) 
 	}) ;
 	// res.render('user/user_info', {});
 });
@@ -82,7 +84,7 @@ router.post('/login', function(req, res) {
 
 			bcrypt.compare(req.body.password, user[0].password_hash, function(err, result) {
 					if (result == true){
-						console.log(req.session);
+						console.log('bycrypt message ', req.session);
 						req.session.logged_in = true;
 						req.session.user_id = user[0].id;
 						req.session.user_email = user[0].email;
@@ -148,6 +150,7 @@ router.put('/addMoney', function(req, res){
 	});
 });
 
+//for some reason, this route never gets hit. this is supposed to be the delete route. I suggest that instead of using delete, for now in the interest of time, we change the delete form submit button to a sign-out to kill the session and log the user out.
 router.get('/potato', function(req,res) {
 	console.log('hitting this')
 	// console.log('trying to delete ', req.body.id);
