@@ -26,7 +26,8 @@ function objToSql(ob){
 //these orm functions and querystrings will need to be changed to match the format of our databases and the queries we will need to run.
 var orm = {
     findOne: function(tableInput, condition, cb) {
-        var queryString = 'SELECT * FROM ' + 'users';
+        // var queryString = 'SELECT * FROM ' + 'users';
+        var queryString = 'SELECT * FROM ' + tableInput; //use this
         queryString = queryString + ' WHERE ';
         queryString = queryString + condition;
         console.log(queryString);
@@ -78,8 +79,13 @@ var orm = {
       });
     },
     delete: function(table, condition, cb){
-      var queryString = 'DELETE FROM ' + table;
-      queryString = queryString + ' WHERE ';
+
+      req.session.username = req.params.username; //use this
+      req.session.id = req.params.id; //use this
+      var condition = "id=" + req.params.id; //use this
+        console.log(condition);
+      var queryString = 'DELETE FROM users ';
+      queryString = queryString + 'WHERE ';
       queryString = queryString + condition;
 
       connection.query(queryString, function(err, result) {

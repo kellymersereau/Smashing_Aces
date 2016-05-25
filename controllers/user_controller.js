@@ -33,10 +33,20 @@ router.get('/profile/:id', function(req,res) {
 	// console.log(req.session.cookie);
 	//find user by req.session.cookie
 	//within a cb after user found, then res.render
-	var condition = "id=" + req.params.id;
+	// req.session.username = req.params.username; //use this
+	console.log('req.session is ', req.session);
+	console.log('req.session.id is ', req.session.id);
+	req.session.id = req.params.id; //use this
+	console.log('req.session.id is ', req.session.id);
+	console.log('req.params.id is ', req.params.id);
+
+	var condition = "id=" + req.params.id; //use this
+	console.log('profile route condition ', condition);
+	console.log('profile route req.session ', req.session);
+	// var condition = "id=" + req.params.id;
 	user.findOne(condition, function(result){
-		console.log(result);
-		res.render('user/user_info', {result})
+		console.log('this is the result', result[0].id);
+		res.render('user/user_info', {users: result[0]})
 	}) ;
 	// res.render('user/user_info', {});
 });
@@ -51,7 +61,6 @@ router.get('/addMoney/:id', function(req, res){
 
 router.get('/sign-out', function(req,res) {
   req.session.destroy(function(err) {
-
      res.redirect('/')
   });
 });
@@ -139,11 +148,35 @@ router.put('/addMoney', function(req, res){
 	});
 });
 
-router.delete('/delete/:id', function(req,res) {
-	var condition = 'id = ' + req.body.id;
+router.get('/potato', function(req,res) {
+	console.log('hitting this')
+	// console.log('trying to delete ', req.body.id);
+	// console.log('trying to delete params', req.params.id);
+	
+	// if (req.session.id == req.params.id){ //use this
+	// var condition = "id=" + req.body.name; //use this
+	// console.log('delete condition', condition);
+	// var condition = "id=" + req.params.id;
+	// var condition = 'id = ' + req.params.id;
+	// req.session.user_id = user[0].id;
+	// var condition = 'id = ' + req.body.id;
 
-	user.delete(condition, function(data){
-		res.redirect('/');
-	});
+	// user.delete(req.body.name, function(data){
+	// 	res.redirect('/');
+	// });
+	res.send(200)
 });
 module.exports = router;
+
+// router.delete('/delete/:id', function(req,res) {
+// 	res.send('')
+// 	console.log('trying to delete ', req.body.id);
+// 	console.log('trying to delete params', req.params.id);
+// 	var condition = 'id = ' + req.params.id;
+// 	// req.session.user_id = user[0].id;
+// 	// var condition = 'id = ' + req.body.id;
+
+// 	user.delete(condition, function(data){
+// 		res.redirect('/');
+// 	});
+// });

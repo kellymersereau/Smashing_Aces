@@ -1,10 +1,11 @@
-{{!-- user information handlebars --}}
+{{!-- user information handlebars --}} 
 <div class="container">
   <div class="section">
     <h3 class="thin center-align"> User Profile </h3>
     	<ul class="collection with-header">
     		<li class="collection-header center-align">
-    			<h4><img src="{{users.photo}}" class="circle responsive-img"> {{users.username}}</h4>
+          <!-- <h4><img src="[[users.photo]]" class="circle responsive-img"> [[users.username]]</h4> -->
+    			 <!-- note: img src="[[needs to be an actual url for the photo so we need a validation to make sure the user input is an actual url]]" -->
     		</li>
     		<li class="collection-item">
       			<h5 class="thin">User Id #: {{users.id}}</h5>
@@ -68,11 +69,14 @@
           </div>
         </li>
         <li class="center">
-          <form action="/delete/{{users.id}}?_method=DELETE" method="POST">
+          <!-- <form action="/delete/[[users.id]]?_method=DELETE" method="POST"> -->
+<!--           <form action="/delete" method="POST">
+          <input type="hidden" name="_method" value="PUT">
             <button class="btn btn-large waves-effect waves-light grey darken-4 align-center bold" type="submit">Delete Account  
               <i class="material-icons right grey darken-4">highlight_off</i>
             </button>
-          </form>
+          </form>-->
+          <a href="/potato"><button>Delete</button></a>
         </li>
     	</ul>
   </div>
