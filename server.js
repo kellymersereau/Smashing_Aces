@@ -1,3 +1,5 @@
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var express = require('express');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -12,6 +14,13 @@ app.use(express.static(process.cwd() + '/public'));
 app.use(bodyParser.urlencoded({
 	extended: false
 }))
+
+app.use(session({
+  secret: 'keyboard cat',
+  // resave: true,
+  // saveUninitialized: true,
+  cookie: {maxAge: 24*60*60*1000}
+}));
 
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))

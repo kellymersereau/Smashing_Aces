@@ -39,3 +39,47 @@ a:hover{
 .validate{
 	color: #69f0ae;
 }
+
+#gameContainer{
+	background-color: #1b5e20;
+	width: 1000px;
+	height: 600px;
+	border: 2px #000000;
+	display: inline-block;
+}
+#quitButton, #playBetButton, #pairsPlusButton, #foldButton, #showCardsButton, #anteBetButton {
+	width: 250px !important;
+	margin: 5px;
+	background-color: #c8e6c9 !important;
+	border: 2px solid #81c784 !important;
+	color: #000000;
+}
+#betsTable{
+	border-style: groove;
+	background-color: #fafafa;
+
+}
+td, th{
+	padding: 5px 5px !important;
+	line-height: 10.75px;
+	font-size: 16px;
+}
+
+.row, .col {
+	padding: 0.75rem;
+}
+.moneySection{
+	font-size: 14px;
+}
+.modal{
+	max-height: 35%;
+}
+#pMoneyBox{
+	border-style: groove;
+	border-color: #000000;
+	vertical-align: middle;
+}
+#pMoneyText{
+	font-size: 16px;
+	padding-top: 10px;
+}

@@ -25,9 +25,9 @@
       <!-- navbar -->
     <div class="navbar-fixed">
       <nav class="green darken-4" role="navigation">
-        <div class="nav-wrapper container">
-          <a id="logo-container" href="#" class="brand-logo thin"></a>
-          <ul class="right hide-on-med-and-down">
+        <div class="nav-wrapper container-fluid">
+          <a id="logo-container" href="#" class="brand-logo center condensed thin"></a>
+          <ul class="left hide-on-med-and-down">
 
           <li>
             <a href="/"><i class="material-icons">home</i></a>
@@ -48,10 +48,18 @@
               </div>
             </div>
           </li>
+        </ul>
+        <ul class="right hide-on-med-and-down">
           {{#if logged_in}}
           <li>
-            <a href="/user_info"><i class="material-icons">person</i></a>
+            <div class="chip thin">
+                Available Balance: ${{this.play_money}}
+            </div>
           </li>
+          <li>
+            <a href="/user/profile"><i class="material-icons">person</i></a>
+          </li>
+
           {{/if}}
         </ul>
 
@@ -78,7 +86,12 @@
             </li>
             {{#if logged_in}}
             <li>
-              <a href="/user_info"><i class="material-icons">person</i></a>
+              <div class="chip thin">
+                  Available Balance: ${{this.play_money}}
+              </div>
+            </li>
+            <li>
+              <a href="/user/profile"><i class="material-icons">person</i></a>
             </li>
             {{/if}}
           </ul>
@@ -98,8 +111,8 @@
         <div class="col l3 s12">
           <h5 class="white-text">Three Card Poker</h5>
           <ul>
-            <li><a class="white-text thin" href="/user/home">Home</a></li>
-            <li><a class="white-text thin" href="/user/sign_in">Sign in</a></li>
+            <li><a class="white-text thin" href="/">Home</a></li>
+            <li><a class="white-text thin" href="/user/sign-in">Sign in</a></li>
             <li><a class="white-text thin" href="/user/new">Sign up</a></li>
             <li><a class="white-text thin" href="/user/profile">Update Profile</a></li>
           </ul>
@@ -138,7 +151,37 @@
     //trigger information for the modal on the home page
     $(document).ready(function(){
       // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-      $('.modal-trigger').leanModal();
+      $('.modal-trigger').leanModal({
+        opacity: .5,
+        in_duration: 300,
+        out_duration: 200,
+      });
+      $('#submitBets').on('click', function(){
+        // need if statement or switch statement to check if user has enough money to play
+
+
+        //need if statement to place an image on the board for the value of the input the user enters
+
+
+        // update player total money box
+        var anteValue = $('#anteBet').val();
+        var pairsValue = $('#pairsPlusBet').val();
+
+        var newPlayerTotal = parseInt(anteValue) + parseInt(pairsValue);
+        var currentPlayerTotal = parseInt($('#playerMoney').val());
+
+        $('#playerMoney').html(currentPlayerTotal - newPlayerTotal);
+       
+        // update bet/wins table
+        var newAnte = parseInt($('#anteBet').val());
+        var newPairs = parseInt($('#pairsPlusBet').val());
+
+        console.log(newAnte + ' ante');
+        console.log(newPairs + ' pairs');
+
+        $('#amountBetAnte').html(newAnte);
+        $('#amountBetPairsPlus').html(newPairs);
+      });
     });
            
     </script>
