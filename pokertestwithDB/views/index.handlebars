@@ -1,0 +1,39 @@
+<h1>Welcome to Three Card Poker</h1>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<p>Current Play Money:{{play_money}}</p>
+
+<form id='ante' action = '/antebets' method="POST">
+
+		 <p>Enter Your bet Below</p>
+         <input type="text" name="antebet" id="ant">
+       
+         <p>Enter Pair Plus bet below</p>
+          <input type="text" name="pairplusbet" id="pairplus">
+         <button type="submit">Add Bets and See Cards</button>
+</form>
+
+
+
+
+
+
+<div id='abet'></div>
+<script>
+
+
+// $('#ante').submit(function() {
+// 	var antebet = parseInt($('#ant').val());
+
+// 	if (antebet >= 5) {
+// 		$('#ante').html('you can play with antebet '+antebet);
+// 		return true;
+// 	} else {
+// 		return false;
+// 	}
+
+
+// });
+
+</script>
