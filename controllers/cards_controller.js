@@ -9,7 +9,10 @@ router.get('/game', function(req,res) {
 	user.all(function(data){
 		var hbsObject = {
 			card: data,
-			logged_in: req.session.logged_in
+			logged_in: req.session.logged_in,
+			bet: true,
+			raise: false,
+			fold: false
 		}
 		console.log(hbsObject)
 		res.render('cardgame', hbsObject);

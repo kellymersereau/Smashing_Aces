@@ -65,7 +65,7 @@
 		{{!-- modal button to place bets --}}
 
 			 
-			<button data-target="modalBet" class="waves-effect waves-light btn modal-trigger {{#unless bet}} disabled {{/unless}}" id="anteBetButton">Place Bet</button>
+			<button data-target="modalBet" class="waves-effect waves-light btn modal-trigger {{#if bet}} disabled {{/if}}" id="anteBetButton">Place Bet</button>
 			
 			<div id="modalBet" class="modal">
 				<div class="modal-content">
