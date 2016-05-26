@@ -1,10 +1,12 @@
-{{!-- user information handlebars --}}
+<!-- user information handlebars -->
 <div class="container">
   <div class="section">
     <h3 class="thin center-align"> User Profile </h3>
     	<ul class="collection with-header">
     		<li class="collection-header center-align">
-    			<h4><img src="{{users.photo}}" class="circle responsive-img"> {{users.username}}</h4>
+    			<h4>
+<!--           <img src="users.photo" class="circle responsive-img">  -->
+          {{users.username}}</h4>
     		</li>
     		<li class="collection-item">
       			<h5 class="thin">User Id #: {{users.id}}</h5>
@@ -21,7 +23,7 @@
                 <div class="modal-content">
                   <h4 class="center-align">Edit E-mail</h4>
                   <br>
-                  <form class="col s12" action="/user/update" method="POST">
+                  <form class="col s12" action="/user/update/{{users.id}}" method="POST">
                   <div class="row">
                     <div class="input-field col s12">
                       <input id="email" type="email" class="validate">

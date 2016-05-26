@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
     <head>
       <meta charset="utf-8">
@@ -7,13 +7,10 @@
 
 
       <title> Three Card Poker </title>
-      {{!-- Google Fonts - Roboto --}}
+      <!-- Google Fonts - Roboto -->
       <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
       <!--Import Google Icon Font-->
       <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-
-      <!-- Latest compiled and minified Bootstrap CSS -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
       <!--Import materialize.css-->
       <link rel="stylesheet" href="/assets/css/materialize/css/materialize.min.css"  type="text/css">
@@ -50,6 +47,7 @@
           </li>
         </ul>
         <ul class="right hide-on-med-and-down">
+<!--         #each user -->
           {{#if logged_in}}
           <li>
             <div class="chip thin">
@@ -57,13 +55,13 @@
             </div>
           </li>
           <li>
-            <a href="/user/profile"><i class="material-icons">person</i></a>
+            <a href="/user_info"><i class="material-icons">person</i></a>
           </li>
 
           {{/if}}
         </ul>
 
-        {{!-- for mobile use only --}}
+        <!-- for mobile use only -->
           <ul id="nav-mobile" class="side-nav">
             <li>
               <a href="/home"><i class="material-icons right">home</i></a>
@@ -91,7 +89,7 @@
               </div>
             </li>
             <li>
-              <a href="/user/profile"><i class="material-icons">person</i></a>
+              <a href="/user_info"><i class="material-icons">person</i></a>
             </li>
             {{/if}}
           </ul>
@@ -114,7 +112,7 @@
             <li><a class="white-text thin" href="/">Home</a></li>
             <li><a class="white-text thin" href="/user/sign-in">Sign in</a></li>
             <li><a class="white-text thin" href="/user/new">Sign up</a></li>
-            <li><a class="white-text thin" href="/user/profile">Update Profile</a></li>
+            <li><a class="white-text thin" href="/user/profile/{{users.id}}">Update Profile</a></li>
           </ul>
         </div>
         <div class="col l3 s12">
@@ -141,10 +139,7 @@
       <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
-    <!-- Latest compiled and minified Bootstrap JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-    {{!-- Materialize javascript --}}
+    <!-- Materialize javascript -->
     <script type="text/javascript" src="/assets/css/materialize/js/materialize.min.js"></script>
 
     <script type="text/javascript">
@@ -165,12 +160,24 @@
 
         // update player total money box
         var anteValue = $('#anteBet').val();
+        console.log('Ante Value Entered: $'+anteValue);
+
         var pairsValue = $('#pairsPlusBet').val();
+        console.log('Pairs Plus Value Entered: $'+pairsValue);
 
         var newPlayerTotal = parseInt(anteValue) + parseInt(pairsValue);
-        var currentPlayerTotal = parseInt($('#playerMoney').val());
+        console.log('New Player Total: $'+newPlayerTotal);
 
-        $('#playerMoney').html(currentPlayerTotal - newPlayerTotal);
+        var currentPlayerTotal = parseInt($('#pMoney').html());
+
+        if(currentPlayerTotal === 0){
+          $('#pMoney').appendTo(parseInt(newPlayerTotal));
+          console.log('(new)Current Player Total: $'+currentPlayerTotal);
+        }else{
+
+          $('#pMoney').appendTo(currentPlayerTotal - newPlayerTotal);
+          console.log((currentPlayerTotal - newPlayerTotal) + ' new total');
+        }
        
         // update bet/wins table
         var newAnte = parseInt($('#anteBet').val());
@@ -179,8 +186,8 @@
         console.log(newAnte + ' ante');
         console.log(newPairs + ' pairs');
 
-        $('#amountBetAnte').html(newAnte);
-        $('#amountBetPairsPlus').html(newPairs);
+        $('#amountBetAnte').appendTo(newAnte);
+        $('#amountBetPairsPlus').appendTo(newPairs);
       });
     });
            
