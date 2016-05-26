@@ -23,15 +23,15 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
-app.get('/',function (req,res){
+// app.get('/',function (req,res){
 
-	//make sure the user 4 exists - if not change to a user that does exist with play_money
-	connection.query("SELECT * FROM users where id = ?", [4], function(err, result){
+// 	//make sure the user 4 exists - if not change to a user that does exist with play_money
+// 	connection.query("SELECT * FROM users where id = ?", [4], function(err, result){
 
-		res.render('index',{play_money: result[0].play_money});
+// 		res.render('index',{play_money: result[0].play_money});
 		
-	});
-});
+// 	});
+// });
 
 var	dealerHand = [];
 var	playerHand = [];

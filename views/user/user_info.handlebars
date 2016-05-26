@@ -70,9 +70,16 @@
           </div>
         </li>
         <li class="center">
-          <form action="/delete/{{users.id}}?_method=DELETE" method="POST">
-            <button class="btn btn-large waves-effect waves-light grey darken-4 align-center bold" type="submit">Delete Account  
+          <!-- sign out button -->
+          <form action='/user/sign-out' method="GET">
+            <button class="btn waves-effect waves-light grey darken-4 align-center bold" type="submit">Sign Out
               <i class="material-icons right grey darken-4">highlight_off</i>
+            </button>
+          </form>
+          <!-- play game button -->
+          <form id='playGame' action="/user/game/{{users.id}}" method="GET">
+            <button data-target="/user/game/{{users.id}}" class="btn waves-effect waves-light grey darken-4 align-center bold modal-trigger" type="submit">Play Game!
+              <i class="material-icons right grey darken-4">casino</i>
             </button>
           </form>
         </li>
