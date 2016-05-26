@@ -4,7 +4,8 @@
     <h3 class="thin center-align"> User Profile </h3>
     	<ul class="collection with-header">
     		<li class="collection-header center-align">
-          <!-- <h4><img src="[[users.photo]]" class="circle responsive-img"> [[users.username]]</h4> -->
+         <!--  <h4><img src="[[users.photo]]" class="circle responsive-img">  -->
+          <h4>{{users.username}}</h4>
     			 <!-- note: img src="[[needs to be an actual url for the photo so we need a validation to make sure the user input is an actual url]]" -->
     		</li>
     		<li class="collection-item">
@@ -26,7 +27,7 @@
                   <div class="row">
                     <div class="input-field col s12">
                       <input id="email" type="email" class="validate">
-                      <label for="email">Email</label>
+                      <label for="email">Email</label> 
                     </div>
                   </div>
                   <button class="btn waves-effect waves-light green lighten-2 center-align" type="submit" name="action">Submit

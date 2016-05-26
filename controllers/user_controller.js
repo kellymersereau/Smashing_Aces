@@ -57,6 +57,11 @@ router.get('/update/:id', function(req, res){
 	res.redirect('/update');
 });
 
+router.get('/update/:play_money', function(req, res){
+		console.log('play money update hit');
+	res.redirect('/update');
+});
+
 router.post('/addMoney/:id', function(req, res){
 	res.redirect('/addMoney');
 });
@@ -72,16 +77,17 @@ router.get('/sign-out', function(req,res) {
 //if user trys to sign in with the wrong password or email tell them that on the page
 router.post('/login', function(req, res) {
 	var email = req.body.email;
-
+	console.log('req.body.EMAIL IS ', req.body.email);
 	var condition = "email='" + req.body.email + "';";
-
+	console.log('condition EMAIL IS ', condition);
+	
 	user.findOne(condition, function(user){
 		// console.log("we found this, ", user);
 		// if(err){
 		// 	res.send('an account with this email does not exist - please sign up');
 		// }
 		if (user){
-
+		
 			bcrypt.compare(req.body.password, user[0].password_hash, function(err, result) {
 					if (result == true){
 						console.log('bycrypt message ', req.session);
@@ -94,12 +100,46 @@ router.post('/login', function(req, res) {
 						res.redirect('/sign-in');
 					}
 			});
-		}else{
+		}
+		else{
+			// res.render('/', {
+			// 	error : 'an account with this email does not exist'
+			// })
 			res.send('an account with this email does not exist - please sign up')
 		}
 	});
 });
-
+// router.post('/login', function(req, res) {
+// 	var email = req.body.email;
+// 	console.log('req.body.EMAIL IS ', req.body.email);
+// 	var condition = "email='" + req.body.email + "';";
+// 	console.log('condition EMAIL IS ', condition);
+	
+// 	user.findOne(condition, function(user){
+// 		// console.log("we found this, ", user);
+// 		// if(err){
+// 		// 	res.send('an account with this email does not exist - please sign up');
+// 		// }
+// 		if (user){
+		
+// 			bcrypt.compare(req.body.password, user[0].password_hash, function(err, result) {
+// 					if (result == true){
+// 						console.log('bycrypt message ', req.session);
+// 						req.session.logged_in = true;
+// 						req.session.user_id = user[0].id;
+// 						req.session.user_email = user[0].email;
+// 						console.log(req.session)
+// 						res.redirect('/user/profile/' + req.session.user_id);
+// 					} else{
+// 						res.redirect('/sign-in');
+// 					}
+// 			});
+// 		}
+// 		else{
+// 			res.send('an account with this email does not exist - please sign up')
+// 		}
+// 	});
+// });
 router.post('/create', function(req,res) {
 	var queryString = "select * from users where email = '" + req.body.email + "'";
 
