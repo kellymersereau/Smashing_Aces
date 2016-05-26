@@ -31,52 +31,44 @@ router.get('/sign-in', function(req,res) {
 });
 
 router.get('/profile/:id', function(req,res) {
-	// res.render('user/user_info');
-	// console.log(req.session.cookie);
-	//find user by req.session.cookie
-	//within a cb after user found, then res.render
-	// req.session.username = req.params.username; //use this
 	console.log('req.session is ', req.session);
 	console.log('req.session.id is ', req.session.user_id);
 
 	// this is used to attach the user session to the profile page. 
 	req.session.id = req.params.id; //use this
-	console.log('req.session.id is ', req.session.user_id);
 	console.log('req.params.id is ', req.params.id);
 	// I used req.params.id from above to set the condition in order for the findAll orm function to work properly.
 	var condition = "id=" + req.params.id; //use this
 	console.log('profile route condition ', condition);
-	console.log('profile route req.session ', req.session);
 	// var condition = "id=" + req.params.id;
 	user.findOne(condition, function(result){
+		var hbsObject = {
+			users: result[0],
+			logged_in: req.session.logged_in,
+		}
 		console.log('this is the result', result[0].id);
 		//using the users key with result[0] properly renders the user info onto the handlebars profile page.
 		res.render('user/user_info', {users: result[0]}) 
 	}) ;
 });
 
-router.get('/:id', function(req,res) {
-	// res.render('user/user_info');
-	// console.log(req.session.cookie);
-	//find user by req.session.cookie
-	//within a cb after user found, then res.render
-	// req.session.username = req.params.username; //use this
-	console.log('req.session is ', req.session);
-	console.log('req.session.id is ', req.session.user_id);
+router.get('/home/:id', function(req,res) {
+
+	console.log('home req.session is ', req.session);
+	console.log('home req.session.id is ', req.session.user_id);
 
 	// this is used to attach the user session to the profile page. 
 	req.session.id = req.params.id; //use this
-	console.log('req.session.id is ', req.session.user_id);
-	console.log('req.params.id is ', req.params.id);
-	// I used req.params.id from above to set the condition in order for the findAll orm function to work properly.
+
 	var condition = "id=" + req.params.id; //use this
-	console.log('profile route condition ', condition);
-	console.log('profile route req.session ', req.session);
 	// var condition = "id=" + req.params.id;
 	user.findOne(condition, function(result){
-		console.log('this is the result', result[0].id);
-		//using the users key with result[0] properly renders the user info onto the handlebars profile page.
-		res.render('home', {users: result[0]}) 
+		var hbsObject = {
+			users: result[0],
+			logged_in: req.session.logged_in
+		}
+		console.log(hbsObject)
+		res.render('home', hbsObject);
 	}) ;
 });
 

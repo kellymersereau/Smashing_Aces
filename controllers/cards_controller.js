@@ -21,17 +21,17 @@ router.get('/game', function(req,res) {
 
 
 //(kelly) updates the deals-cards table with each card that is dealt during the game
-router.put('/update/:card_id', function(req,res) {
-	var condition = 'card_id = ' + req.params.card_id;
+// router.put('/update/:card_id', function(req,res) {
+// 	var condition = 'card_id = ' + req.params.card_id;
 
-	console.log('condition', condition);
+// 	console.log('condition', condition);
 
-	//(kelly) updates the deals table with the cards played for each user during each deal - i'm not quite sure how to do this
+// 	//(kelly) updates the deals table with the cards played for each user during each deal - i'm not quite sure how to do this
 
-	// card.update('deals_cards', {''}, condition, function(data){
-	// 	res.redirect('/cards');
-	// });
-});
+// 	// card.update('deals_cards', {''}, condition, function(data){
+// 	// 	res.redirect('/cards');
+// 	// });
+// });
 
 
 module.exports = router;

@@ -27,7 +27,7 @@
           <ul class="left hide-on-med-and-down">
 
           <li>
-            <a href="/"><i class="material-icons">home</i></a>
+            <a href="/user/home/{{users.id}}"><i class="material-icons">home</i></a>
           </li>
           <li>
             <a href="#modal2" class="modal-trigger"><i class="material-icons">info</i></a>
@@ -55,7 +55,7 @@
             </div>
           </li>
           <li>
-            <a href="/user_info/{{user.id}}"><i class="material-icons">person</i></a>
+            <a href="/user/profile/{{users.id}}"><i class="material-icons">person</i></a>
           </li>
 
           {{/if}}
@@ -64,7 +64,7 @@
         <!-- for mobile use only -->
           <ul id="nav-mobile" class="side-nav">
             <li>
-              <a href="/home"><i class="material-icons right">home</i></a>
+              <a href="/user/home/{{users.id}}"><i class="material-icons right">home</i></a>
             </li>
             <li>
               <a href="#modal2" class="modal-trigger"><i class="material-icons">info</i></a>
@@ -85,11 +85,11 @@
             {{#if logged_in}}
             <li>
               <div class="chip thin">
-                  Available Balance: ${{this.play_money}}
+                  Available Balance: ${{users.play_money}}
               </div>
             </li>
             <li>
-              <a href="/user_info"><i class="material-icons">person</i></a>
+              <a href="/user/profile/{{users.id}}"><i class="material-icons">person</i></a>
             </li>
             {{/if}}
           </ul>
