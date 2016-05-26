@@ -35,30 +35,30 @@ app.set('view engine', 'handlebars');
 var application_controllers = require('./controllers/application_controllers.js');
 var cards_controller = require('./controllers/cards_controller.js');
 var user_controller = require('./controllers/user_controller.js');
-var game_controller = require('./controllers/game_controller.js');
+// var game_controller = require('./controllers/game_controller.js');
 
-//app.use('/', application_controllers);
-//app.use('/cards', cards_controller);
-//app.use('/user', user_controller);
-//app.use('/game', game_controller);
+app.use('/', application_controllers);
+app.use('/cards', cards_controller);
+app.use('/user', user_controller);
+// app.use('/game', game_controller);
 
 //---------------------------------LOGIC START-------------------------------------------------------
 
-app.get('/',function (req,res){
+// app.get('/',function (req,res){
 
-	//make sure the user 4 exists - if not change to a user that does exist with play_money
-	connection.query("SELECT * FROM users where id = ?", [4], function(err, result){
+// 	//make sure the user 4 exists - if not change to a user that does exist with play_money
+// 	connection.query("SELECT * FROM users where id = ?", [4], function(err, result){
 
-		res.render('cardgame', {
-			play_money: result[0].play_money,
-			bet : true,
-			raise : false,
-			fold : false
-		});
-		//res.render('daves_stuff/index',{play_money: result[0].play_money});
+// 		res.render('cardgame', {
+// 			play_money: result[0].play_money,
+// 			bet : true,
+// 			raise : false,
+// 			fold : false
+// 		});
+// 		//res.render('daves_stuff/index',{play_money: result[0].play_money});
 		
-	});
-});
+// 	});
+// });
 
 var	dealerHand = [];
 var	playerHand = [];
