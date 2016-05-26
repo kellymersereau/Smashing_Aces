@@ -26,6 +26,7 @@
 
 
 <form action = '/playdecision' method = 'post'>
+	<input type="hidden" name="pairplusbet" value="{{this.pairbet}}">
   <input type="hidden" name="antebet" value="{{this.bet}}">
   <input type="radio" name="decision" value="fold"> Fold<br>
   <input type="radio" name="decision" value="bet" checked> Bet<br>

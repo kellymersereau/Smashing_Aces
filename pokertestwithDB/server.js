@@ -25,10 +25,12 @@ app.set('view engine', 'handlebars');
 
 app.get('/',function (req,res){
 
-	connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
-	res.render('index',{play_money:result[0].play_money});
+	//make sure the user 4 exists - if not change to a user that does exist with play_money
+	connection.query("SELECT * FROM users where id = ?", [4], function(err, result){
+
+		res.render('index',{play_money: result[0].play_money});
 		
-		});
+	});
 });
 
 var	dealerHand = [];
@@ -44,10 +46,6 @@ app.post('/antebets',function(req,res){
 	
 
 	connection.query("SELECT * FROM cards order by rand()", function(err, result){
-
-		
-	
-
 
 			dealerHand.push({id:result[0].id, rank: result[0].rank, suite: result[0].suite, img:result[0].image_link});
 			playerHand.push({id:result[1].id, rank: result[1].rank, suite: result[1].suite, img:result[1].image_link});
@@ -90,47 +88,40 @@ app.post('/antebets',function(req,res){
 
 //var resultFromHand=true;
 
+
 app.post('/playdecision',function(req,res){
 	if (req.body.decision === "bet"){
 		
-
-
-
-			console.log('ranks and suites');
+			// console.log('ranks and suites');
 			
-			console.log('this is player ranks '+playerCardRanks,playerSuites);
-			console.log('this is dealer ranks '+dealerCardRanks,dealerSuites);
-		
+			// console.log('this is player ranks '+playerCardRanks,playerSuites);
+			// console.log('this is dealer ranks '+dealerCardRanks,dealerSuites);
+			
+			antebet = req.body.antebet;
+			pairPlusBet = req.body.pairplusbet;
 
 			bestPlayerHand = getBestHand(playerCardRanks,playerSuites);
 
 			bestDealerHand = getBestHand(dealerCardRanks,dealerSuites);
 
-			console.log('VARIABLES GOING INTO GETWINNER');
-			console.log(bestPlayerHand);
-			console.log(bestDealerHand);
-			console.log('antebet'+antebet);
-			console.log('pair pairPlusBet '+pairPlusBet);
+			// console.log('VARIABLES GOING INTO GETWINNER');
+			// console.log(bestPlayerHand);
+			// console.log(bestDealerHand);
+			// console.log('antebet'+antebet);
+			// console.log('pair pairPlusBet '+pairPlusBet);
 			
-			
-
-
 			resultFromHand = getWinner(bestDealerHand,bestPlayerHand,antebet,pairPlusBet); //Money to add or deduct from current balance
 
 
-
-
-
-
-			connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
+			connection.query("SELECT * FROM users where id = ?", [4], function(err, result){
 
 				console.log("resultfromhand before updated query: "+resultFromHand);
 
 				console.log('win or lose = '+resultFromHand);
 				var newBalance = parseInt(result[0].play_money) + resultFromHand;
 				console.log('this is the new balance: '+newBalance);
+				console.log('from if!')
 				cashAdjust(res,newBalance);
-
 
 				var playerHandTwo = playerHand;
 				var dealerHandTwo = dealerHand;
@@ -148,40 +139,39 @@ app.post('/playdecision',function(req,res){
 				playerCardRanks = [];
 				playerSuites = [];
 
-				 res.render('showcards',showCards)
-			
+				res.render('showcards', showCards);
 				
 			}); //END OF SQL QUERY TO GET PLAYER'S CURRENT BALANCE AND ADD/SUBTRACT BET DEPENDING ON WINNINGS
 
 			function cashAdjust(res, value){
-				connection.query("UPDATE users SET play_money = ? WHERE id = ?", [value, 1], function(err, result){
-					
-					// res.redirect('/');
+				connection.query("UPDATE users SET play_money = ? WHERE id = ?", [value, 4], function(err, result){
+					//res.redirect('/');
+					console.log('done updating from cashAdjust function')
 				});
-				
 			}
+
 		  } //END OF IF STATEMENT IF PLAYER WANTED TO BET AND DID NOT FOLD	
 
 	else {
-		connection.query("SELECT * FROM users where id = ?", [1], function(err, result){
+		connection.query("SELECT * FROM users where id = ?", [4], function(err, result){
 
 			newBalance = result[0].play_money - antebet - pairPlusBet;
+			console.log('from else!')
 			cashAdjust(res,newBalance);
-			dealerHand = [];
-			playerHand = [];
-			dealerCardRanks = [];
-			dealerSuites = [];
-			playerCardRanks = [];
-			playerSuites = [];
+			//weird
+				dealerHand = [];
+				playerHand = [];
+				dealerCardRanks = [];
+				dealerSuites = [];
+				playerCardRanks = [];
+				playerSuites = [];
 			res.redirect('/');
 
-			});
+		});
 
-		
 	}
+}); //End of POST /PLAYDECISION
 
-
-		}); //End of POST /PLAYDECISION
 // 	}); //END OF SQL QUERY
 // }); //END OF POST /ANTEBETS
 
