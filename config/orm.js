@@ -31,7 +31,8 @@ var orm = {
         queryString = queryString + condition;
         console.log(queryString);
         connection.query(queryString, function(err, result) {
-            if (err) throw err;
+            // if (err) throw err;
+            if(err) throw err;
             cb(result);
         });
     },
@@ -78,7 +79,12 @@ var orm = {
       });
     },
     delete: function(table, condition, cb){
-      var queryString = 'DELETE FROM ' + table;
+      //not sure if below code is needed or correct. will revist maybe one day
+      // req.session.username = req.params.username;
+      // req.session.id = req.params.id;
+      // var condition = 'id' + req.params.id;
+      //   console.log(condition);
+      var queryString = 'DELETE FROM users';
       queryString = queryString + ' WHERE ';
       queryString = queryString + condition;
 

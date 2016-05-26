@@ -8,16 +8,16 @@ router.get('/', function(req, res){
 	res.redirect('/game')
 });
 
-router.get('/game', function(req,res) {
-	hand.all(function(data){
-		var hbsObject = {
-			cards : data,
-			logged_in: req.session.logged_in
-		}
-		console.log(hbsObject)
-		res.render('cardgame', hbsObject);
-	});
-});
+// router.get('/game', function(req,res) {
+// 	hand.all(function(data){
+// 		var hbsObject = {
+// 			cards : data,
+// 			logged_in: req.session.logged_in
+// 		}
+// 		console.log(hbsObject)
+// 		res.render('cardgame', hbsObject);
+// 	});
+// });
 
 
 //(kelly) it isn't needed to be e-mail but it is needed so we can push the players information into the hands table.  this will only be called when the user is placed into the game and finalizes their bets
