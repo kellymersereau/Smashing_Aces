@@ -52,8 +52,10 @@ var playerSuites = [];
 var hbsObject = {};
 
 
-app.post('/antebets/:id', function(req, res) {
-  req.session.id = req.params.id;
+app.post('/antebets/:id?', function(req, res) {
+
+  req.session.logged_in = true;
+  req.session.user_id = req.params.id;
   var condition = "id=" + req.params.id;
 
   var queryString = 'SELECT * FROM users';
@@ -102,18 +104,22 @@ app.post('/antebets/:id', function(req, res) {
     newUserTotal = (parseInt(req.body.pMoney) - pairPlusBet - antebet);
 
     // res.render('daves_stuff/choose_play', {
-    res.render('cardgame', {
+    // res.render('cardgame', {
+      var hobj = {
       pairbet: pairPlusBet,
       anteBet: antebet,
       playerHand: playerHand,
       dealerHand: dealerHand,
-      pMoney: newUserTotal,
+      // pMoney: newUserTotal,
+      users: {play_money: newUserTotal},
       bet: true,
       raise: false,
       fold: false,
       // users: hbsObject.users,
-      logged_in: hbsObject.logged_in
-    });
+      // logged_in: hbsObject.logged_in
+      logged_in: req.session.logged_in
+    };
+    res.render('cardgame', hobj);
 
   });
 
@@ -122,7 +128,26 @@ app.post('/antebets/:id', function(req, res) {
 //var resultFromHand=true;
 
 
-app.post('/playdecision/:id', function(req, res) {
+app.post('/playdecision/:id?', function(req, res) {
+  req.session.logged_in = true;
+  req.session.user_id = req.params.id;
+  var condition = "id=" + req.params.id;
+
+  var queryString = 'SELECT * FROM users';
+  queryString = queryString + ' WHERE ';
+  queryString = queryString + condition;
+
+  console.log(queryString);
+
+  connection.query(queryString, function(data) {
+    hbsObject = {
+      users: data,
+      logged_in: req.session.logged_in
+    }
+    console.log(hbsObject)
+    return hbsObject;
+  });
+  
   if (req.body.decision === "raise") {
 
     // console.log('ranks and suites');
@@ -551,3 +576,5 @@ function payOuts(playerHandOutcome, playerHand, antebet, pairPlus) {
 
 var port = process.env.PORT || 3000;
 app.listen(port);
+
+module.exports = checkThreeKind;

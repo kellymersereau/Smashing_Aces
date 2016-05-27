@@ -4,7 +4,7 @@ var router = express.Router();
 var user = require('../models/user.js');
 var connection = require('../config/connection.js');
 
-router.get('/game/:id', function(req,res) {
+router.get('/game/:id?', function(req,res) {
 	console.log('this is req.session.id ' + req.session.id);
 	console.log('this is req.session.logged_in ' + req.session.logged_in);
 	req.session.id = req.params.id;
@@ -37,12 +37,16 @@ router.get('/sign-in', function(req,res) {
 	res.render('user/sign_in');
 });
 
-router.get('/profile/:id', function(req,res) {
+router.get('/profile/:id?', function(req,res) {
 	console.log('req.session is ', req.session);
 	console.log('req.session.id is ', req.session.user_id);
 
 	// this is used to attach the user session to the profile page. 
-	req.session.id = req.params.id; //use this
+	// req.session.id = req.params.id; //use this
+
+	if(req.session.user_id){
+		req.params.id = req.session.user_id;	
+	}
 	console.log('req.params.id is ', req.params.id);
 	// I used req.params.id from above to set the condition in order for the findAll orm function to work properly.
 	var condition = "id=" + req.params.id; //use this
@@ -59,7 +63,7 @@ router.get('/profile/:id', function(req,res) {
 	}) ;
 });
 
-router.get('/home/:id', function(req,res) {
+router.get('/home/:id?', function(req,res) {
 
 	if(req.params.id == undefined) {
 		res.redirect('/');
@@ -83,9 +87,9 @@ router.get('/home/:id', function(req,res) {
 	};
 });
 
-router.get('/update/:id', function(req, res){
-	res.redirect('/update');
-});
+// router.get('/update/:id', function(req, res){
+// 	res.redirect('/update');
+// });
 
 router.get('/addMoney/:id', function(req, res){
 	res.redirect('/addMoney');
@@ -158,7 +162,7 @@ router.post('/create', function(req,res) {
 	});
 });
 
-router.put('/update:id', function(req, res){
+router.post('/update:id?', function(req, res){
 	var condition = "id = " + req.params.id;
 
 	console.log('--------------');
