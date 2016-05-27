@@ -499,7 +499,7 @@ function payOuts(playerHandOutcome, playerHand, antebet, pairPlus) {
 
 //---------------------------------LOGIC END-------------------------------------------------------
 
-var port = process.env.PORT || 3000;
+var port = process.env.JAWSDB_URL || 3000;
 app.listen(port);
 
 module.exports = checkThreeKind;
