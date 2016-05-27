@@ -153,26 +153,41 @@ router.post('/create', function(req,res) {
 	});
 });
 
-router.put('/update', function(req, res){
-	var condition = "id = " + req.params.id;
+// router.put('/update', function(req, res){
+// 	var condition = "id = " + req.params.id;
 
-	user.update({'email': req.body.email}, condition, function(req, res){
-		res.send('E-mail updated!');
+// 	user.update({'email': req.body.email}, condition, function(req, res){
+// 		res.send('E-mail updated!');
+// 	});
+// });
+
+router.put('/update/:id', function(req, res){
+	var condition = "id=" + req.params.id;
+
+	console.log('--------------');
+	console.log('addMoney route put condition', condition);
+	console.log(req.body.play_money)
+	
+	var sum = 0;
+	var player = {};
+	
+	var queryString = 'SELECT play_money FROM users WHERE ' + condition;
+	console.log('queryString', queryString);
+	
+	connection.query(queryString, function(err, result) {
+			if (err) throw err;
+			console.log('result: ', parseInt(result[0].play_money));
+			player = result;
+			sum = parseInt(result[0].play_money) + parseInt(req.body.play_money);
+			console.log('update with this value ', sum);
+			var queryString2= 'UPDATE users SET play_money=' + sum + ' WHERE ' + condition;
+			console.log(queryString2);
+			
+			connection.query(queryString2, function(err, result) { 	
+				res.redirect('/user/profile/' + req.params.id);
+			});
 	});
-});
 
-router.put('/addMoney', function(req, res){
-	var condition = "id = " + req.params.id;
-
-	user.findOne(condition, function(req, res){
-		newMoney = parseInt(res.play_money) + parseInt(req.body.playMoney);
-		console.log(newMoney);
-		res.render(newMoney);
-	});
-
-	user.update({'play_money': playMoney}, condition, function(req, res){
-		res.send('Money added to account!');
-	});
 });
 
 router.delete('/delete/:id', function(req,res) {
