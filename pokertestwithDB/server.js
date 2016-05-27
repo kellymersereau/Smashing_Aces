@@ -37,7 +37,7 @@ app.get('/',function (req,res){
 	});
 });
 
-
+// 
 
 var	dealerHand = [];
 var	playerHand = [];
@@ -46,16 +46,10 @@ var	dealerSuites = [];
 var	playerCardRanks = [];
 var	playerSuites = [];
 
-var dealerHandBack = [];
 
 
 
 app.post('/antebets',function(req,res){
-	connection.query("SELECT * FROM cards WHERE id = 53", function(err, result){
-		dealerHandBack.push({img: result[0].image_link});
-		dealerHandBack.push({img: result[0].image_link});
-		dealerHandBack.push({img: result[0].image_link});
-	});
 
 	connection.query("SELECT * FROM cards order by rand()", function(err, result){
 

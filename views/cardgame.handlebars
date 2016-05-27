@@ -122,9 +122,9 @@
 	</div>
 	</div>
 		<div class="col s4">
-			<form action="/playdecision/{{users.id}}" method="GET">
-<!-- 				<input type="hidden" name="pairsplusbet" value="[this.pairbet]">
-				<input type="hidden" name="antebet" value="[this.anteBet]"> -->
+			<form action="/playdecision/{{users.id}}" method="POST">
+				<input type="hidden" name="pairsplusbet" value="{{this.pairbet}}">
+				<input type="hidden" name="antebet" value="{{this.anteBet}}">
 				<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="playBetButton" name="decision" value="raise">Raise</button>
 			</form>
 		</div>

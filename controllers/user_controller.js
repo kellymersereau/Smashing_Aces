@@ -1,13 +1,16 @@
 var bcrypt = require('bcryptjs');
 var express = require('express');
 var router = express.Router();
+
 var user = require('../models/user.js');
 var connection = require('../config/connection.js');
 
-router.get('/game/:id?', function(req,res) {
+router.get('/game/:id', function(req,res) {
 	console.log('this is req.session.id ' + req.session.id);
 	console.log('this is req.session.logged_in ' + req.session.logged_in);
-	req.session.id = req.params.id;
+	console.log('were here ', req.session.logged_in);
+
+	req.session.user_id = req.params.id;
 	var condition = "id=" + req.params.id;
 
 	user.findOne(condition, function(data){
@@ -19,14 +22,6 @@ router.get('/game/:id?', function(req,res) {
 		res.render('cardgame', hbsObject);
 	});
 });
-
-// router.get('/antebets', function(req, res){
-// 	res.redirect('antebets/' + req.params.id);
-// });
-
-// router.get('/playdecision', function(req, res){
-// 	res.redirect('playdecision/' + req.params.id);
-// });
 
 
 router.get('/new', function(req,res) {
@@ -40,56 +35,35 @@ router.get('/sign-in', function(req,res) {
 router.get('/profile/:id?', function(req,res) {
 	console.log('req.session is ', req.session);
 	console.log('req.session.id is ', req.session.user_id);
-
 	// this is used to attach the user session to the profile page. 
 	// req.session.id = req.params.id; //use this
 
 	if(req.session.user_id){
 		req.params.id = req.session.user_id;	
-	}
-	console.log('req.params.id is ', req.params.id);
-	// I used req.params.id from above to set the condition in order for the findAll orm function to work properly.
-	var condition = "id=" + req.params.id; //use this
-	console.log('profile route condition ', condition);
-	// var condition = "id=" + req.params.id;
-	user.findOne(condition, function(result){
-		var hbsObject = {
-			users: result[0],
-			logged_in: req.session.logged_in,
-		}
-		console.log('this is the result', result[0].id);
-		//using the users key with result[0] properly renders the user info onto the handlebars profile page.
-		res.render('user/user_info', {users: result[0]}) 
-	}) ;
-});
 
-router.get('/home/:id?', function(req,res) {
-
-	if(req.params.id == undefined) {
-		res.redirect('/');
-	} else{
-		console.log('home req.session is ', req.session);
-		console.log('home req.session.id is ', req.session.user_id);
-
-		// this is used to attach the user session to the profile page. 
-		req.session.id = req.params.id; //use this
-
+		console.log('req.params.id is ', req.params.id);
+		// I used req.params.id from above to set the condition in order for the findAll orm function to work properly.
 		var condition = "id=" + req.params.id; //use this
-		// var condition = "id=" + req.params.id;
+		console.log('profile route condition ', condition);
+		
 		user.findOne(condition, function(result){
 			var hbsObject = {
 				users: result[0],
-				logged_in: req.session.logged_in
+				logged_in: req.session.logged_in,
 			}
-			console.log(hbsObject)
-			res.render('home', hbsObject);
-		});
+			console.log('this is the result', result[0].id);
+			//using the users key with result[0] properly renders the user info onto the handlebars profile page.
+			res.render('user/user_info', {users: result[0]}) 
+		}) ;
+	}
+	else{
+		res.redirect('/');
 	};
 });
 
-// router.get('/update/:id', function(req, res){
-// 	res.redirect('/update');
-// });
+router.get('/update/:id', function(req, res){
+  res.redirect('/update');
+});
 
 router.get('/addMoney/:id', function(req, res){
 	res.redirect('/addMoney');
@@ -103,9 +77,8 @@ router.get('/sign-out', function(req,res) {
 
 //if user trys to sign in with the wrong password or email tell them that on the page
 router.post('/login', function(req, res) {
-	var email = req.body.email;
-	console.log('req.body.email is', req.body.email);
-	var condition = "email='" + req.body.email + "';";
+
+	var condition = "email = '" + req.body.email + "';";
 
 	user.findOne(condition, function(user){
 
@@ -121,16 +94,17 @@ router.post('/login', function(req, res) {
 		        req.session.logged_in = true;
 		        req.session.user_id = user[0].id;
 		        req.session.user_email = user[0].email;
-		        console.log(req.session)
-		        res.redirect('/user/profile/' + req.session.user_id);
+
+		        res.redirect('/');
 		      } else{
 		      	console.log('wrong password')
-		        res.redirect('/');
+		        // res.redirect('/');
+		        res.write('<h3>Password incorrect! Try again. </h3>');
 		      }
 		  });
 		}else{
 			res.send('an account with this email does not exist - please sign up!')
-		}
+		};
 	});
 });
 
@@ -142,7 +116,7 @@ router.post('/create', function(req,res) {
 
 			if (users.length > 0){
 				// console.log(users)
-				res.send('we already have an email or username for this account')
+				res.write('<h3>We already have an email or username for this account. Try a different e-mail </h3>');
 			}else{
 
 				bcrypt.genSalt(10, function(err, salt) {
@@ -152,7 +126,9 @@ router.post('/create', function(req,res) {
                 req.session.user_id = user.id;
                 req.session.user_email = user.email;
                 console.log('usercreated');
-                res.redirect('/')
+
+                res.redirect('/');
+                res.write('<h3>User created! Sign in below to start playing </h3>');
             	});
 
 						});
@@ -162,7 +138,7 @@ router.post('/create', function(req,res) {
 	});
 });
 
-router.post('/update:id?', function(req, res){
+router.post('/update/:id', function(req, res){
 	var condition = "id = " + req.params.id;
 
 	console.log('--------------');
@@ -198,11 +174,4 @@ router.post('/update:id?', function(req, res){
 });
 
 
-router.delete('/delete/:id', function(req,res) {
-	var condition = 'id = ' + req.params.id;
-
-	user.delete(condition, function(data){
-		res.redirect('/');
-	});
-});
 module.exports = router;

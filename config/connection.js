@@ -18,4 +18,6 @@ connection.connect(function(err) {
     console.log('connected as id ' + connection.threadId);
 });
 
+var sess;
+
 module.exports = connection;
