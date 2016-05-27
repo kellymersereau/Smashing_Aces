@@ -1,7 +1,6 @@
 var bcrypt = require('bcryptjs');
 var express = require('express');
 var router = express.Router();
-var card = require('../models/cards.js');
 var user = require('../models/user.js');
 var connection = require('../config/connection.js');
 
@@ -21,7 +20,13 @@ router.get('/game/:id', function(req,res) {
 	});
 });
 
+// router.get('/antebets', function(req, res){
+// 	res.redirect('antebets/' + req.params.id);
+// });
 
+// router.get('/playdecision', function(req, res){
+// 	res.redirect('playdecision/' + req.params.id);
+// });
 
 
 router.get('/new', function(req,res) {
@@ -56,22 +61,26 @@ router.get('/profile/:id', function(req,res) {
 
 router.get('/home/:id', function(req,res) {
 
-	console.log('home req.session is ', req.session);
-	console.log('home req.session.id is ', req.session.user_id);
+	if(req.params.id == undefined) {
+		res.redirect('/');
+	} else{
+		console.log('home req.session is ', req.session);
+		console.log('home req.session.id is ', req.session.user_id);
 
-	// this is used to attach the user session to the profile page. 
-	req.session.id = req.params.id; //use this
+		// this is used to attach the user session to the profile page. 
+		req.session.id = req.params.id; //use this
 
-	var condition = "id=" + req.params.id; //use this
-	// var condition = "id=" + req.params.id;
-	user.findOne(condition, function(result){
-		var hbsObject = {
-			users: result[0],
-			logged_in: req.session.logged_in
-		}
-		console.log(hbsObject)
-		res.render('home', hbsObject);
-	}) ;
+		var condition = "id=" + req.params.id; //use this
+		// var condition = "id=" + req.params.id;
+		user.findOne(condition, function(result){
+			var hbsObject = {
+				users: result[0],
+				logged_in: req.session.logged_in
+			}
+			console.log(hbsObject)
+			res.render('home', hbsObject);
+		});
+	};
 });
 
 router.get('/update/:id', function(req, res){
@@ -149,27 +158,41 @@ router.post('/create', function(req,res) {
 	});
 });
 
-router.put('/update', function(req, res){
+router.put('/update:id', function(req, res){
 	var condition = "id = " + req.params.id;
 
-	user.update({'email': req.body.email}, condition, function(req, res){
-		res.send('E-mail updated!');
+	console.log('--------------');
+	console.log('addMoney route put condition ', condition);
+	console.log('req.body.play_money = ' + req.body.play_money)
+
+	var sum = 0;
+	var player = {};
+
+	var queryString = 'SELECT play_money FROM users WHERE ' + condition;
+	console.log('queryString', queryString);
+
+	// add play_money Value to above
+	connection.query(queryString, function(err, result) {
+		if (err) throw err;
+
+		console.log('result: ', parseInt(result[0].play_money));
+
+		player = result;
+
+		sum = parseInt(result[0].play_money) + parseInt(req.body.play_money);
+
+		console.log('update with this value ', sum);
+
+		var queryString2= 'UPDATE users SET play_money=' + sum + ' WHERE ' + condition;
+
+		console.log('querystring2 ' + queryString2);
+
+		connection.query(queryString2, function(err, result) { 	
+			res.redirect('/user/profile/' + req.params.id);
+		});
 	});
 });
 
-router.put('/addMoney', function(req, res){
-	var condition = "id = " + req.params.id;
-
-	user.findOne(condition, function(req, res){
-		newMoney = parseInt(res.play_money) + parseInt(req.body.playMoney);
-		console.log(newMoney);
-		res.render(newMoney);
-	});
-
-	user.update({'play_money': playMoney}, condition, function(req, res){
-		res.send('Money added to account!');
-	});
-});
 
 router.delete('/delete/:id', function(req,res) {
 	var condition = 'id = ' + req.params.id;

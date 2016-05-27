@@ -34,12 +34,10 @@ app.set('view engine', 'handlebars');
 
 
 var application_controllers = require('./controllers/application_controllers.js');
-var cards_controller = require('./controllers/cards_controller.js');
 var user_controller = require('./controllers/user_controller.js');
 
 
 app.use('/', application_controllers);
-app.use('/cards', cards_controller);
 app.use('/user', user_controller);
 
 
@@ -124,8 +122,8 @@ app.post('/antebets/:id', function(req, res) {
 //var resultFromHand=true;
 
 
-app.post('/playdecision', function(req, res) {
-  if (req.body.decision === "bet") {
+app.post('/playdecision/:id', function(req, res) {
+  if (req.body.decision === "raise") {
 
     // console.log('ranks and suites');
 
@@ -156,6 +154,7 @@ app.post('/playdecision', function(req, res) {
       var newBalance = parseInt(result[0].play_money) + resultFromHand;
       console.log('this is the new balance: ' + newBalance);
       console.log('from if!')
+      console.log('this is res: ' + res);
       cashAdjust(res, newBalance);
 
       var playerHandTwo = playerHand;
@@ -165,7 +164,7 @@ app.post('/playdecision', function(req, res) {
         playerHand: playerHandTwo,
         dealerHand: dealerHandTwo,
         resultFromHand: resultFromHand
-      }
+      };
 
       playerHand = [];
       dealerHand = [];
@@ -174,14 +173,26 @@ app.post('/playdecision', function(req, res) {
       playerCardRanks = [];
       playerSuites = [];
 
-      res.render('daves_stuff/showcards', showCards);
+      // res.render('daves_stuff/showcards', showCards);
+      res.render('cardgame', {
+        pairbet: 0,
+        anteBet: 0,
+        playerHand: playerHand,
+        dealerHand: dealerHand,
+        pMoney: newBalance,
+        bet: true,
+        raise: false,
+        fold: false,
+        // users: hbsObject.users,
+        logged_in: hbsObject.logged_in
+      });
 
     }); //END OF SQL QUERY TO GET PLAYER'S CURRENT BALANCE AND ADD/SUBTRACT BET DEPENDING ON WINNINGS
 
     function cashAdjust(res, value) {
       console.log('res=' + res);
       console.log('value= ' + value);
-      connection.query("UPDATE users SET play_money = ? WHERE id = ?", [value, 4], function(err, result) {
+      connection.query("UPDATE users SET play_money = ? WHERE id = ?", [value, req.params.id], function(err, result) {
         //res.redirect('/');
         console.log('done updating from cashAdjust function')
       });
@@ -189,7 +200,7 @@ app.post('/playdecision', function(req, res) {
 
   } //END OF IF STATEMENT IF PLAYER WANTED TO BET AND DID NOT FOLD	
   else {
-    connection.query("SELECT * FROM users where id = ?", [4], function(err, result) {
+    connection.query("SELECT * FROM users where id = ?", [req.params.id], function(err, result) {
 
       newBalance = result[0].play_money - antebet - pairPlusBet;
       console.log('from else!')
@@ -201,7 +212,20 @@ app.post('/playdecision', function(req, res) {
       dealerSuites = [];
       playerCardRanks = [];
       playerSuites = [];
-      res.redirect('/');
+
+      // res.render('/');
+      res.render('cardgame', {
+        pairbet: 0,
+        anteBet: 0,
+        playerHand: playerHand,
+        dealerHand: dealerHand,
+        pMoney: newBalance,
+        bet: true,
+        raise: false,
+        fold: false,
+        // users: hbsObject.users,
+        logged_in: hbsObject.logged_in
+      });
 
     });
 
