@@ -6,9 +6,10 @@ var user = require('../models/user.js');
 var connection = require('../config/connection.js');
 
 router.get('/game/:id', function(req,res) {
-	console.log('this is req.session.id ' + req.session.id);
+	console.log('this is req.session.id ' + req.session.user_id);
 	console.log('this is req.session.logged_in ' + req.session.logged_in);
-	req.session.id = req.params.id;
+	console.log('were here ', req.session.logged_in);
+	req.session.user_id = req.params.id;
 	var condition = "id=" + req.params.id;
 
 	user.findOne(condition, function(data){

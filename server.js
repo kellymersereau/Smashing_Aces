@@ -54,8 +54,10 @@ var playerSuites = [];
 var hbsObject = {};
 
 
-app.post('/antebets/:id', function(req, res) {
-
+app.post('/antebets/:id?', function(req, res) {
+if(req.session.user_id){
+  req.params.id = req.session.user_id;  
+}
   req.session.logged_in = true;
   req.session.user_id = req.params.id;
   //req.session.user_email = user[0].email;
@@ -67,17 +69,17 @@ app.post('/antebets/:id', function(req, res) {
 
   console.log(queryString);
 
-  connection.query(queryString, function(data) {
-    console.log('data', data);
+  connection.query(queryString, function(err, results) {
+    console.log('results.id --------', results[0].id);
     hbsObject = {
-      users: data,
+      users: results[0].id,
       logged_in: req.session.logged_in
     }
-    console.log(hbsObject)
+    console.log('but where???', hbsObject);
     return hbsObject;
   });
 
-  console.log('this is req.session.id ' + req.session.id);
+  console.log('this is req.session.user_id ' + req.session.user_id);
   console.log('this is req.session.logged_in ' + req.session.logged_in);
 
   connection.query("SELECT * FROM cards order by rand()", function(err, result) {
@@ -113,15 +115,17 @@ app.post('/antebets/:id', function(req, res) {
       anteBet: antebet,
       playerHand: playerHand,
       dealerHand: dealerHand,
-      users: {play_money: newUserTotal},
+      users: {play_money: newUserTotal, id: parseInt(req.session.user_id)},
       bet: true,
       raise: false,
       fold: false,
+      // user_id: parseInt(req.session.user_id),
       // users: hbsObject.users,
       // logged_in: hbsObject.logged_in
       logged_in: req.session.logged_in
     }
     //res.send(hobj);
+    console.log('-------->', hobj)
     res.render('cardgame', hobj);
 
   });
