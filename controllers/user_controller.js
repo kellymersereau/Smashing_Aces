@@ -32,12 +32,16 @@ router.get('/sign-in', function(req,res) {
 	res.render('user/sign_in');
 });
 
-router.get('/profile/:id', function(req,res) {
+router.get('/profile/:id?', function(req,res) {
 	console.log('req.session is ', req.session);
 	console.log('req.session.id is ', req.session.user_id);
 
 	// this is used to attach the user session to the profile page. 
-	req.session.id = req.params.id; //use this
+
+if(req.session.user_id){
+	req.params.id = req.session.user_id;	
+}
+//	req.session.id = req.params.id; //use this
 	console.log('req.params.id is ', req.params.id);
 	// I used req.params.id from above to set the condition in order for the findAll orm function to work properly.
 	var condition = "id=" + req.params.id; //use this

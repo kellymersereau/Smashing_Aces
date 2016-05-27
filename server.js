@@ -55,7 +55,10 @@ var hbsObject = {};
 
 
 app.post('/antebets/:id', function(req, res) {
-  req.session.id = req.params.id;
+
+  req.session.logged_in = true;
+  req.session.user_id = req.params.id;
+  //req.session.user_email = user[0].email;
   var condition = "id=" + req.params.id;
 
   var queryString = 'SELECT * FROM users';
@@ -65,6 +68,7 @@ app.post('/antebets/:id', function(req, res) {
   console.log(queryString);
 
   connection.query(queryString, function(data) {
+    console.log('data', data);
     hbsObject = {
       users: data,
       logged_in: req.session.logged_in
@@ -104,18 +108,21 @@ app.post('/antebets/:id', function(req, res) {
     newUserTotal = (parseInt(req.body.pMoney) - pairPlusBet - antebet);
 
     // res.render('daves_stuff/choose_play', {
-    res.render('cardgame', {
+    var hobj = {
       pairbet: pairPlusBet,
       anteBet: antebet,
       playerHand: playerHand,
       dealerHand: dealerHand,
-      pMoney: newUserTotal,
+      users: {play_money: newUserTotal},
       bet: true,
       raise: false,
       fold: false,
       // users: hbsObject.users,
-      logged_in: hbsObject.logged_in
-    });
+      // logged_in: hbsObject.logged_in
+      logged_in: req.session.logged_in
+    }
+    //res.send(hobj);
+    res.render('cardgame', hobj);
 
   });
 
