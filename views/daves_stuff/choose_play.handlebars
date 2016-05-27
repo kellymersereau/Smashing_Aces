@@ -3,20 +3,20 @@
 <p>Your Pair Plus bet is: {{this.pairbet}}</p>
 
 
-<p>Player's hand</p>
+<p>Dealer hand</p>
 <br>
 <div>
-	{{#each playerHand}}
-		<img src='/assets/cardimages/{{this.img}}'>
+	{{#each dealerHand}}
+		<img src='/assets/cardimages/back.bmp'>
 	{{/each}}
 </div>
 <br>
 
 
-<p>Dealer hand</p>
+<p>Player hand</p>
 <br>
 <div>
-	{{#each dealerHand}}
+	{{#each playerHand}}
 		<img src='/assets/cardimages/{{this.img}}'>
 	{{/each}}
 </div>

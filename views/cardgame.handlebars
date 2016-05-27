@@ -15,7 +15,7 @@
 <div class="container" id="gameContainer">
 {{!-- bets table and win loss --}}
 	<div class="row">
-		<div class="col s3">
+		<div class="col s3 right-offset-s1" id="betsDiv">
 			<table id="betsTable">
 			  <thead>
 			    <tr>
@@ -28,12 +28,12 @@
 			  <tbody>
 			    <tr>
 			      <td class="condensed thin">Ante</td>
-			      <td class="moneySection" id="amountBetAnte">$</td>
+			      <td class="moneySection" id="amountBetAnte">${{this.anteBet}}</td>
 			      <td class="moneySection" id="amountWonAnte">$</td>
 			    </tr>
 			    <tr>
 			      <td class="condensed thin">Pairs Plus</td>
-			      <td class="moneySection" id="amountBetPairsPlus">$</td>
+			      <td class="moneySection" id="amountBetPairsPlus">${{this.pairbet}}</td>
 			      <td class="moneySection" id="amountWonPairsPlus">$</td>
 			    </tr>
 			    <tr>
@@ -44,16 +44,37 @@
 			  </tbody>
 			</table>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col s4 offset-s4">
+<!-- 	</div>
+	<div class="row"> -->
+		<div class="col s4">
 		{{!-- dealers cards go here --}}
+		{{#if bet}}
+			<h4 class="white-text thin center-align">Dealer Cards</h4>
+			{{#each dealerHand}}
+				<img src="/assets/cardimages/{{this.back_img}}">
+			{{/each}}
+		{{/if}}
+		{{#unless bet}}
+			<h4 class="white-text thin center-align">Dealer Cards</h4>
+			{{#each dealerHand}}
+				<img src="/assets/cardimages/{{this.img}}">
+			{{/each}}
+		{{/unless}}
+
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col s6 offset-s3">
+		<div class="col s4 offset-s4">
 		{{!-- players cards --}}
+
+		{{#if bet}}
+			<h4 class="white-text thin center-align">Player Cards</h4>
+			{{#each playerHand}}
+				<img src="/assets/cardimages/{{this.img}}">
+			{{/each}}
+		{{/if}}
+
 		</div>
 	</div>
 
@@ -73,7 +94,7 @@
 				  <div class="row">
 				  {{!-- need to only give the user certain value options they cant bet just any old number--}}
 
-				    <form class="col s12" action="/antebets" method="POST">
+				    <form class="col s12" action="/antebets/{{users.id}}" method="POST">
 				      <div class="row">
 				        <div class="input-field col s6">
 				          <input id="anteBet" type="number" class="validate" name="antebet">
@@ -100,10 +121,10 @@
 	</div>
 	</div>
 		<div class="col s4">
-			<button class="waves-effect waves-light btn {{#unless raise}} disabled {{/unless}}" id="playBetButton">Raise</button>
+			<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="playBetButton">Raise</button>
 		</div>
 		<div class="col s4">
-			<button class="waves-effect waves-light btn {{#unless fold}} disabled {{/unless}}" id="foldButton">Fold</button>
+			<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="foldButton">Fold</button>
 		</div>
 	</div>
 </div>

@@ -151,44 +151,44 @@
         in_duration: 300,
         out_duration: 200,
       });
-      $('#submitBets').on('click', function(){
-        // need if statement or switch statement to check if user has enough money to play
+      // $('#submitBets').on('click', function(){
+    //     // need if statement or switch statement to check if user has enough money to play
 
 
-        //need if statement to place an image on the board for the value of the input the user enters
+    //     //need if statement to place an image on the board for the value of the input the user enters
 
 
-        // update player total money box
-        var anteValue = $('#anteBet').val();
-        console.log('Ante Value Entered: $'+anteValue);
+    //     // update player total money box
+    //     var anteValue = $('#anteBet').val();
+    //     console.log('Ante Value Entered: $'+anteValue);
 
-        var pairsValue = $('#pairsPlusBet').val();
-        console.log('Pairs Plus Value Entered: $'+pairsValue);
+    //     var pairsValue = $('#pairsPlusBet').val();
+    //     console.log('Pairs Plus Value Entered: $'+pairsValue);
 
-        var newPlayerTotal = parseInt(anteValue) + parseInt(pairsValue);
-        console.log('New Player Total: $'+newPlayerTotal);
+    //     var newPlayerTotal = parseInt(anteValue) + parseInt(pairsValue);
+    //     console.log('New Player Total: $'+newPlayerTotal);
 
-        var currentPlayerTotal = parseInt($('#pMoney').html());
+    //     var currentPlayerTotal = parseInt($('#pMoney').html());
 
-        if(currentPlayerTotal === 0){
-          $('#pMoney').appendTo(parseInt(newPlayerTotal));
-          console.log('(new)Current Player Total: $'+currentPlayerTotal);
-        }else{
+    //     if(currentPlayerTotal === 0){
+    //       $('#pMoney').appendTo(parseInt(newPlayerTotal));
+    //       console.log('(new)Current Player Total: $'+currentPlayerTotal);
+    //     }else{
 
-          $('#pMoney').appendTo(currentPlayerTotal - newPlayerTotal);
-          console.log((currentPlayerTotal - newPlayerTotal) + ' new total');
-        }
+    //       $('#pMoney').appendTo(currentPlayerTotal - newPlayerTotal);
+    //       console.log((currentPlayerTotal - newPlayerTotal) + ' new total');
+    //     }
        
-        // update bet/wins table
-        var newAnte = parseInt($('#anteBet').val());
-        var newPairs = parseInt($('#pairsPlusBet').val());
+    //     // update bet/wins table
+    //     var newAnte = parseInt($('#anteBet').val());
+    //     var newPairs = parseInt($('#pairsPlusBet').val());
 
-        console.log(newAnte + ' ante');
-        console.log(newPairs + ' pairs');
+    //     console.log(newAnte + ' ante');
+    //     console.log(newPairs + ' pairs');
 
-        $('#amountBetAnte').appendTo(newAnte);
-        $('#amountBetPairsPlus').appendTo(newPairs);
-      });
+    //     $('#amountBetAnte').appendTo(newAnte);
+    //     $('#amountBetPairsPlus').appendTo(newPairs);
+    //   });
     });
            
     </script>

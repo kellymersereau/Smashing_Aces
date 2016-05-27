@@ -22,6 +22,8 @@ router.get('/game/:id', function(req,res) {
 });
 
 
+
+
 router.get('/new', function(req,res) {
 	res.render('user/new');
 });
