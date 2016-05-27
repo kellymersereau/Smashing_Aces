@@ -206,7 +206,7 @@ app.post('/playdecision/:id', function(req, res) {
   } else if (req.body.decision === "fold") {
     connection.query("SELECT * FROM users where id = ?", [req.params.id], function(err, result) {
 
-      newBalance = result[0].play_money - antebet - pairPlusBet;
+      newBalance = result[0].play_money - antebet - pairplusbet;
 
       console.log('fold new balance: ' + newBalance);
 
