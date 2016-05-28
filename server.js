@@ -181,7 +181,7 @@ app.post('/playdecision/:id', function(req, res) {
             }
             
             var hobj2 = {
-                push:push
+                push:push,
                 win: win,
                 loss: loss,
                 afterraisefold: true,
@@ -221,7 +221,7 @@ app.post('/playdecision/:id', function(req, res) {
             cashAdjust(result, newBalance);
 
             var hobj2 = {
-                push:push
+                push:push,
                 win: win,
                 loss: loss,
                 afterraisefold: true,
