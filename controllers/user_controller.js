@@ -35,17 +35,17 @@ router.get('/sign-in', function(req,res) {
 router.get('/profile/:id?', function(req,res) {
 	console.log('req.session is ', req.session);
 	console.log('req.session.id is ', req.session.user_id);
-	// this is used to attach the user session to the profile page. 
+	// this is used to attach the user session to the profile page.
 	// req.session.id = req.params.id; //use this
 
 	if(req.session.user_id){
-		req.params.id = req.session.user_id;	
+		req.params.id = req.session.user_id;
 
 		console.log('req.params.id is ', req.params.id);
 		// I used req.params.id from above to set the condition in order for the findAll orm function to work properly.
 		var condition = "id=" + req.params.id; //use this
 		console.log('profile route condition ', condition);
-		
+
 		user.findOne(condition, function(result){
 			var hbsObject = {
 				users: result[0],
@@ -53,7 +53,7 @@ router.get('/profile/:id?', function(req,res) {
 			}
 			console.log('this is the result', result[0].id);
 			//using the users key with result[0] properly renders the user info onto the handlebars profile page.
-			res.render('user/user_info', {users: result[0]}) 
+			res.render('user/user_info', {users: result[0]})
 		}) ;
 	}
 	else{
@@ -138,40 +138,33 @@ router.post('/create', function(req,res) {
 	});
 });
 
-router.post('/update/:id', function(req, res){
-	var condition = "id = " + req.params.id;
+router.put('/update/:id', function(req, res){
+    var condition = "id=" + req.params.id;
 
-	console.log('--------------');
-	console.log('addMoney route put condition ', condition);
-	console.log('req.body.play_money = ' + req.body.play_money)
+    console.log('--------------');
+    console.log('addMoney route put condition', condition);
+    console.log(req.body.play_money)
 
-	var sum = 0;
-	var player = {};
+    var sum = 0;
+    var player = {};
 
-	var queryString = 'SELECT play_money FROM users WHERE ' + condition;
-	console.log('queryString', queryString);
+    var queryString = 'SELECT play_money FROM users WHERE ' + condition;
+    console.log('queryString', queryString);
 
-	// add play_money Value to above
-	connection.query(queryString, function(err, result) {
-		if (err) throw err;
+    connection.query(queryString, function(err, result) {
+            if (err) throw err;
+            console.log('result: ', parseInt(result[0].play_money));
+            player = result;
+            sum = parseInt(result[0].play_money) + parseInt(req.body.play_money);
+            console.log('update with this value ', sum);
+            var queryString2= 'UPDATE users SET play_money=' + sum + ' WHERE ' + condition;
+            console.log(queryString2);
 
-		console.log('result: ', parseInt(result[0].play_money));
+            connection.query(queryString2, function(err, result) {
+                res.redirect('/user/profile/' + req.params.id);
+            });
+    });
 
-		player = result;
-
-		sum = parseInt(result[0].play_money) + parseInt(req.body.play_money);
-
-		console.log('update with this value ', sum);
-
-		var queryString2= 'UPDATE users SET play_money=' + sum + ' WHERE ' + condition;
-
-		console.log('querystring2 ' + queryString2);
-
-		connection.query(queryString2, function(err, result) { 	
-			res.redirect('/user/profile/' + req.params.id);
-		});
-	});
 });
-
 
 module.exports = router;

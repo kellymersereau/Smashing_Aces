@@ -21,7 +21,6 @@
 			    <tr>
 			        <th class="condensed thin center" data-field="id"></th>
 			        <th class="condensed thin center" data-field="bet">BET</th>
-			        <th class="condensed thin center" data-field="win">WIN</th>
 			    </tr>
 			  </thead>
 
@@ -29,38 +28,42 @@
 			    <tr>
 			      <td class="condensed thin">Ante</td>
 			      <td class="moneySection" id="amountBetAnte">${{this.anteBet}}</td>
-			      <td class="moneySection" id="amountWonAnte">$</td>
 			    </tr>
 			    <tr>
 			      <td class="condensed thin">Pairs Plus</td>
 			      <td class="moneySection" id="amountBetPairsPlus">${{this.pairbet}}</td>
-			      <td class="moneySection" id="amountWonPairsPlus">$</td>
 			    </tr>
 			    <tr>
 			      <td class="condensed thin">Raise</td>
 			      <td class="moneySection" id="amountBetRaise">$ </td>
-			      <td class="moneySection" id="amountWonRaise">$ </td>
 			    </tr>
 			  </tbody>
 			</table>
 		</div>
-<!-- 	</div>
-	<div class="row"> -->
+		<!-- <div> <div class="row"> -->
 		<div class="col s4">
-		{{!-- dealers cards go here --}}
-		{{#if bet}}
-			<h4 class="white-text thin center-align">Dealer Cards</h4>
-			{{#each dealerHand}}
-				<img src="/assets/cardimages/{{this.back_img}}">
-			{{/each}}
-		{{/if}}
-		{{#unless bet}}
-			<h4 class="white-text thin center-align">Dealer Cards</h4>
-			{{#each dealerHand}}
-				<img src="/assets/cardimages/{{this.img}}">
-			{{/each}}
-		{{/unless}}
+			{{!-- dealers cards go here --}}
 
+			{{#if win}}
+				<p>You Won ${{win}}!</p>
+			{{/if}}
+
+			{{#if loss}}
+				<p>Sorry You Lost ${{loss}}. Try again and get your money back.</p>
+			{{/if}}
+
+			{{#if showBackOfDealerCards}}
+				<h4 class="white-text thin center-align">Dealer Cards</h4>
+				{{#each dealerHand}}
+					<img src="/assets/cardimages/{{this.back_img}}">
+				{{/each}}
+			{{/if}}
+			{{#if showFrontOfDealerCards}}
+				<h4 class="white-text thin center-align">Dealer Cards</h4>
+				{{#each dealerHand}}
+					<img src="/assets/cardimages/{{this.img}}">
+				{{/each}}
+			{{/if}}
 		</div>
 	</div>
 
@@ -83,10 +86,11 @@
 <div class="container" id="userButtons">
 	<div class="row">
 		<div class="col s4">
-		{{!-- modal button to place bets --}}
+			{{!-- modal button to place bets --}}
 
-			 
-			<button data-target="modalBet" class="waves-effect waves-light btn modal-trigger {{#if bet}} disabled {{/if}}" id="anteBetButton">Place Bet</button>
+			{{#unless afterraisefold }} 
+				<button data-target="modalBet" class="waves-effect waves-light btn modal-trigger {{#if bet}} disabled {{/if}}" id="anteBetButton">Place Bet</button>
+			{{/unless}}
 			
 			<div id="modalBet" class="modal">
 				<div class="modal-content">
@@ -114,22 +118,25 @@
 				    </form>
 				  </div>
 				</div>
-{{!-- 				<div class="modal-footer">
-			    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-				</div> --}}
 			</div>
 		</div>
 	</div>
 	</div>
-		<div class="col s4">
-			<form action="/playdecision/{{users.id}}" method="POST">
-				<input type="hidden" name="pairplusbet" value="{{this.pairbet}}">
-				<input type="hidden" name="antebet" value="{{this.anteBet}}">
-				<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="playBetButton" name="decision" value="raise">Raise</button>
-			</form>
-		</div>
-		<div class="col s4">
-			<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="foldButton">Fold</button>
-		</div>
+		{{#if afterraisefold }}
+			<div class="col s4">
+				<a href="/user/game/{{users.id}}" class="waves-effect waves-light btn">Play Again</a>
+			</div>
+		{{else}}
+			<div class="col s4">
+				<form action="/playdecision/{{users.id}}" method="POST">
+					<input type="hidden" name="pairplusbet" value="{{this.pairbet}}">
+					<input type="hidden" name="antebet" value="{{this.anteBet}}">
+					<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="playBetButton" name="decision" value="raise">Raise</button>
+				</form>
+			</div>
+			<div class="col s4">
+				<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="foldButton">Fold</button>
+			</div>
+		{{/if}}
 	</div>
 </div>
