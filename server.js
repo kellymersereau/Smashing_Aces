@@ -224,9 +224,9 @@ app.post('/playdecision/:id', function(req, res) {
             cashAdjust(result, newBalance);
 
             var hobj2 = {
-                push:push,
-                win: win,
-                loss: loss,
+                // push:push,
+                // win: win,
+                // loss: loss,
                 afterraisefold: true,
                 showBackOfDealerCards: false,
                 showFrontOfDealerCards: true,
