@@ -52,6 +52,10 @@
 				<p class="white-text thin center-align">Sorry You Lost ${{loss}}. Try again and get your money back.</p>
 			{{/if}}
 
+			{{#if push}}
+			    <p class="white-text thin center-align">This is a push. No money won / lost</p>
+			{{/if}}
+
 			{{#if showBackOfDealerCards}}
 				<h4 class="white-text thin center-align">Dealer Cards</h4>
 				{{#each dealerHand}}
@@ -135,7 +139,7 @@
 				</form>
 			</div>
 			<div class="col s4">
-				<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="foldButton">Fold</button>
+				<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="foldButton" name="decision" value="fold">Fold</button>
 			</div>
 		{{/if}}
 	</div>

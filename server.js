@@ -169,14 +169,19 @@ app.post('/playdecision/:id', function(req, res) {
 
             win = false;
             loss = false;
+            push = false;
 
-            if (resultFromHand > 0){
-              win = resultFromHand;
-            }else{
-              loss = -1 * (resultFromHand);
+            if (resultFromHand == 0){
+                push = true;
+            }
+            else if (resultFromHand > 0){
+                win = resultFromHand;
+            }else {
+                loss = -1 * (resultFromHand);
             }
             
             var hobj2 = {
+                push:push
                 win: win,
                 loss: loss,
                 afterraisefold: true,
@@ -216,18 +221,21 @@ app.post('/playdecision/:id', function(req, res) {
             cashAdjust(result, newBalance);
 
             var hobj2 = {
-                winOrLoss: resultFromHand,
+                push:push
+                win: win,
+                loss: loss,
                 afterraisefold: true,
-                showBackOfDealerCards: true,
-                showFrontOfDealerCards: false,
-                bet: false,
+                showBackOfDealerCards: false,
+                showFrontOfDealerCards: true,
+                bet: true,
                 pairbet: 0,
                 anteBet: 0,
                 playerHand: playerHand,
                 dealerHand: dealerHand,
                 users: { play_money: newBalance, id: parseInt(req.session.user_id) },
-                raise: false,
-                fold: true,
+                raise: true,
+                fold: false,
+                // users: hbsObject.users,
                 logged_in: req.session.logged_in
             };
             //res.send(hobj2);
