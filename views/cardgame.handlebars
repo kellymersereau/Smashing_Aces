@@ -5,8 +5,8 @@
 	</div>
 	<div class="section">
 		<div class="row">
-			<div class="col s4 offset-s4" id="pMoneyBox">
-				<p class="thin center-align" id="pMoneyText">Player Balance: $<span id="pMoney">{{users.play_money}}</span></p>
+			<div class="col s12 m6 l4 offset-l4" id="pMoneyBox">
+				<p class="thin center-align" id="pMoneyText"><b>Player Balance: </b>$<span id="pMoney">{{users.play_money}}</span></p>
 			</div>
 		</div>
 	</div>
@@ -15,47 +15,50 @@
 <div class="container" id="gameContainer">
 {{!-- bets table and win loss --}}
 	<div class="row">
-		<div class="col s3 right-offset-s1" id="betsDiv">
+		<div class="col s10 m6 l3 right-offset-l1 center-align" id="betsDiv">
 			<table id="betsTable">
 			  <thead>
 			    <tr>
 			        <th class="condensed thin center" data-field="id"></th>
-			        <th class="condensed thin center" data-field="bet">BET</th>
+			        <th class="condensed bold center" data-field="bet">BET</th>
 			    </tr>
 			  </thead>
 
 			  <tbody>
 			    <tr>
-			      <td class="condensed thin">Ante</td>
+			      <td class="condensed bold">Ante</td>
 			      <td class="moneySection" id="amountBetAnte">${{this.anteBet}}</td>
 			    </tr>
 			    <tr>
-			      <td class="condensed thin">Pairs Plus</td>
+			      <td class="condensed bold">Pairs Plus</td>
 			      <td class="moneySection" id="amountBetPairsPlus">${{this.pairbet}}</td>
 			    </tr>
 			    <tr>
-			      <td class="condensed thin">Raise</td>
+			      <td class="condensed bold">Raise</td>
 			      <td class="moneySection" id="amountBetRaise">$ </td>
 			    </tr>
 			  </tbody>
 			</table>
 		</div>
 		<!-- <div> <div class="row"> -->
-		<div class="col s4">
+		<div class="col s12 m6 l4 center-align">
 			{{!-- dealers cards go here --}}
 
 			{{#if win}}
-				<p class="white-text thin center-align">You Won ${{win}}!</p>
+				<h4 class="white-text bold center-align">You Won ${{win}}!</h4>
 			{{/if}}
 
 			{{#if loss}}
-				<p class="white-text thin center-align">Sorry You Lost ${{loss}}. Try again and get your money back.</p>
+				<h4 class="white-text bold center-align">Sorry You Lost ${{loss}}. Try again and get your money back.</h4>
 			{{/if}}
 
 			{{#if push}}
-			    <p class="white-text thin center-align">This is a push. No money won / lost</p>
+			    <h4 class="white-text bold center-align">This is a push. No money won / lost</h4>
 			{{/if}}
-
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s12 m6 l4 offset-l4 center-align">
 			{{#if showBackOfDealerCards}}
 				<h4 class="white-text thin center-align">Dealer Cards</h4>
 				{{#each dealerHand}}
@@ -72,7 +75,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col s4 offset-s4">
+		<div class="col s12 m6 l4 offset-l4 center-align">
 		{{!-- players cards --}}
 
 		{{#if bet}}
@@ -89,7 +92,7 @@
 
 <div class="container" id="userButtons">
 	<div class="row">
-		<div class="col s4">
+		<div class="col s12 m4 l4 center-align">
 			{{!-- modal button to place bets --}}
 
 			{{#unless afterraisefold }} 
@@ -98,17 +101,17 @@
 			
 			<div id="modalBet" class="modal">
 				<div class="modal-content">
-				  <h4 class="center">Enter the amount you want to bet</h4>
+				  <h5 class="center">Enter the amount you want to bet</h5>
 				  <div class="row">
 				  {{!-- need to only give the user certain value options they cant bet just any old number--}}
 
 				    <form class="col s12" action="/antebets/{{users.id}}" method="POST">
 				      <div class="row">
-				        <div class="input-field col s6">
+				        <div class="input-field col s12 m6 l6">
 				          <input id="anteBet" type="number" class="validate" name="antebet">
 				          <label for="anteBet" class="thin">Amount of Ante bet</label>
 				        </div>
-				        <div class="input-field col s6">
+				        <div class="input-field col s12 m6 l6">
 				          <input id="pairsPlusBet" type="number" class="validate" name="pairplusbet">
 				          <label for="pairsPlusBet" class="thin">Amount of Pairs Plus bet</label>
 				        </div>
@@ -127,17 +130,17 @@
 	</div>
 	</div>
 		{{#if afterraisefold }}
-			<div class="col s4">
+			<div class="col s12 m4 l4 offset-l4 offset-m4 center-align">
 				<a href="/user/game/{{users.id}}" class="waves-effect waves-light btn">Play Again</a>
 			</div>
 		{{else}}
-			<div class="col s4">
+			<div class="col s12 m4 l4 center-align">
 				<form action="/playdecision/{{users.id}}" method="POST">
 					<input type="hidden" name="pairplusbet" value="{{this.pairbet}}">
 					<input type="hidden" name="antebet" value="{{this.anteBet}}">
 					<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="playBetButton" name="decision" value="raise">Raise</button>
 			</div>
-			<div class="col s4">
+			<div class="col s12 m4 l4 center-align">
 				<button class="waves-effect waves-light btn {{#unless bet}} disabled {{/unless}}" id="foldButton" name="decision" value="fold">Fold</button>
 			</div>
 		</form>

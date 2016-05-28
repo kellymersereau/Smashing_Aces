@@ -46,6 +46,7 @@ a:hover{
 	height: 600px;
 	border: 2px #000000;
 	display: inline-block;
+	webkit-
 }
 #quitButton, #playBetButton, #pairsPlusButton, #foldButton, #showCardsButton, #anteBetButton {
 	width: 250px !important;
@@ -85,4 +86,31 @@ td, th{
 }
 #betsDiv{
 	margin-right: 9%;
+}
+.homeButtons{
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+}
+.circle {
+	width: 3rem;
+	height: 3rem;
+}
+
+@media only screen and (max-width: 992px) {
+	#gameContainer{
+		width: 85%;
+		width: calc(100% - 3rem);
+	}
+}
+@media only screen and (max-width: 600px) {
+	#gameContainer{
+		width: 70%;
+		width: calc(100% - 3rem);
+	}
+}
+@media only screen and (max-width: 420px) {
+	#gameContainer{
+		width: 60%;
+		width: calc(100% - 3rem);
+	}
 }

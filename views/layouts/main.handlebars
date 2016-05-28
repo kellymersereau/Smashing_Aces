@@ -22,10 +22,9 @@
       <!-- navbar -->
     <div class="navbar-fixed">
       <nav class="green darken-4" role="navigation">
-        <div class="nav-wrapper container-fluid">
-          <a id="logo-container" href="#" class="brand-logo center condensed thin"></a>
+<!--         <div class="nav-wrapper container-fluid"> -->
+<!--           <a id="logo-container" href="#" class="brand-logo center condensed thin"></a> -->
           <ul class="left hide-on-med-and-down">
-
           <li>
             <a href="/"><i class="material-icons">home</i></a>
           </li>
@@ -51,7 +50,7 @@
           {{#if logged_in}}
           <li>
             <div class="chip thin">
-                Available Balance: ${{users.play_money}}
+                User Balance: ${{users.play_money}}
             </div>
           </li>
           <li>
@@ -62,12 +61,12 @@
         </ul>
 
         <!-- for mobile use only -->
-          <ul id="nav-mobile" class="side-nav">
+          <ul id="slide-out" class="side-nav">
             <li>
-              <a href="/"><i class="material-icons right">home</i></a>
+              <a href="/"><i class="material-icons right">home</i> Home </a>
             </li>
             <li>
-              <a href="#modal2" class="modal-trigger"><i class="material-icons">info</i></a>
+              <a href="#modal2" class="modal-trigger"><i class="material-icons right">info</i> Game Info</a>
               <!-- Modal Structure -->
               <div id="modal2" class="modal modal-fixed-footer">
                 <div class="modal-content">
@@ -85,15 +84,16 @@
             {{#if logged_in}}
             <li>
               <div class="chip thin">
-                  Available Balance: ${{users.play_money}}
+                  User Balance: ${{users.play_money}}
               </div>
             </li>
             <li>
-              <a href="/user/profile/{{users.id}}"><i class="material-icons">person</i></a>
+              <a href="/user/profile/{{users.id}}"><i class="material-icons right">person</i> User Profile</a>
             </li>
             {{/if}}
           </ul>
-        </div>
+          <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+<!--         </div> -->
       </nav>
     </div>
 
@@ -106,7 +106,7 @@
           <h5 class="white-text">Smashing Aces</h5>
           <p class="grey-text text-lighten-4 thin">We are a group of students from Rutger's Coding Bootcamp working hard to become Full Stack Web Developers.  Three Card Poker is one of our group projects for this bootcamp and any suggestions on how to expand and develop this project is greatly appreciated.</p>
         </div>
-        <div class="col l3 s12">
+        <div class="col l3 m6 s12">
           <h5 class="white-text">Three Card Poker</h5>
           <ul>
             <li><a class="white-text thin" href="/">Home</a></li>
@@ -115,7 +115,7 @@
             <li><a class="white-text thin" href="/user/profile/{{users.id}}">Update Profile</a></li>
           </ul>
         </div>
-        <div class="col l3 s12">
+        <div class="col l3 m6 s12">
           <h5 class="white-text">Connect</h5>
           <ul>
             <li><a class="white-text thin" href="https://github.com/Kevarnold02/Smashing_Aces">Smashing Aces Github</a></li>
@@ -151,44 +151,8 @@
         in_duration: 300,
         out_duration: 200,
       });
-      // $('#submitBets').on('click', function(){
-    //     // need if statement or switch statement to check if user has enough money to play
+      $(".button-collapse").sideNav();
 
-
-    //     //need if statement to place an image on the board for the value of the input the user enters
-
-
-    //     // update player total money box
-    //     var anteValue = $('#anteBet').val();
-    //     console.log('Ante Value Entered: $'+anteValue);
-
-    //     var pairsValue = $('#pairsPlusBet').val();
-    //     console.log('Pairs Plus Value Entered: $'+pairsValue);
-
-    //     var newPlayerTotal = parseInt(anteValue) + parseInt(pairsValue);
-    //     console.log('New Player Total: $'+newPlayerTotal);
-
-    //     var currentPlayerTotal = parseInt($('#pMoney').html());
-
-    //     if(currentPlayerTotal === 0){
-    //       $('#pMoney').appendTo(parseInt(newPlayerTotal));
-    //       console.log('(new)Current Player Total: $'+currentPlayerTotal);
-    //     }else{
-
-    //       $('#pMoney').appendTo(currentPlayerTotal - newPlayerTotal);
-    //       console.log((currentPlayerTotal - newPlayerTotal) + ' new total');
-    //     }
-       
-    //     // update bet/wins table
-    //     var newAnte = parseInt($('#anteBet').val());
-    //     var newPairs = parseInt($('#pairsPlusBet').val());
-
-    //     console.log(newAnte + ' ante');
-    //     console.log(newPairs + ' pairs');
-
-    //     $('#amountBetAnte').appendTo(newAnte);
-    //     $('#amountBetPairsPlus').appendTo(newPairs);
-    //   });
     });
            
     </script>

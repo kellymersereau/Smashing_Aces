@@ -2,26 +2,34 @@
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
       <h1 class="header center green-text">
-      Three Card Poker
+        Three Card Poker
       </h1>
       <div class="row center">
         <h5 class="header col s12 light">
-      An exciting casino table game!
+          An exciting casino table game!
         </h5>
       </div>
       <br>
 
       <div class="row center">
         {{#unless logged_in}}
+        <div class="col s12 m6 l2 offset-l4 homeButtons">
           <a href="/user/sign-in" class="btn-large waves-effect waves-light green"> Sign in </a>
+        </div>
+        <div class="col s12 m6 l2 homeButtons">
           <a href="/user/new" class="btn-large waves-effect waves-light green"> Sign up </a>
+        </div>
       </div>
         {{/unless}}
 
         {{#if logged_in}}
       <div class="row center">
-        <a href="/user/game/{{users.id}}" class="btn-large waves-effect waves-light green">Play Game! </a>
-        <a href="/user/sign-out" class="btn-large waves-effect waves-light green"> Sign out </a>
+        <div class="col s12 m6 l2 offset-l4 homeButtons">
+          <a href="/user/game/{{users.id}}" class="btn-large waves-effect waves-light green">Play Game! </a>
+        </div>
+        <div class="col s12 m6 l2 homeButtons">
+          <a href="/user/sign-out" class="btn-large waves-effect waves-light green"> Sign out </a>
+        </div>
       </div>
       {{/if}}
       <br><br>
