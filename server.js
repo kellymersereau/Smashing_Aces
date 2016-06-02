@@ -138,9 +138,9 @@ app.post('/playdecision/:id', function(req, res) {
         antebet = req.body.antebet;
         pairPlusBet = req.body.pairplusbet;
 
-        bestPlayerHand = getBestHand(playerCardRanks, playerSuites);
+        bestPlayerHand = getBestHand((sortArr(playerCardRanks)), playerSuites);
 
-        bestDealerHand = getBestHand(dealerCardRanks, dealerSuites);
+        bestDealerHand = getBestHand((sortArr(dealerCardRanks)), dealerSuites);
 
         resultFromHand = getWinner(bestDealerHand, bestPlayerHand, antebet, pairPlusBet); //Money to add or deduct from current balance
 
@@ -153,19 +153,18 @@ app.post('/playdecision/:id', function(req, res) {
             var newBalance = parseInt(result[0].play_money) + resultFromHand;
             console.log("previous balance", result[0]);
             console.log('this is the new balance: ' + newBalance);
-            console.log('from if!')
-            console.log('this is res: ' + res);
+           
 
             cashAdjust(result, newBalance);
 
             var playerHandTwo = playerHand;
             var dealerHandTwo = dealerHand;
 
-            var showCards = {
-                playerHand: playerHandTwo,
-                dealerHand: dealerHandTwo,
-                resultFromHand: resultFromHand
-            };
+            // var showCards = {
+            //     playerHand: playerHandTwo,
+            //     dealerHand: dealerHandTwo,
+            //     resultFromHand: resultFromHand
+            // };
 
             win = false;
             loss = false;
@@ -267,29 +266,34 @@ app.post('/playdecision/:id', function(req, res) {
 //  }); //END OF SQL QUERY
 // }); //END OF POST /ANTEBETS
 
+function sortArr(arr){
+
+    
+    rankedArr = arr.sort(function(a, b) //sorts array in descending order
+        {
+            return b - a;
+        });
+    return rankedArr;
+
+}
+
 
 BestHandInfo = function(nameOfHand, rankOfHand, highCard) {
-    this.nameOfHand = nameOfHand,
+        this.nameOfHand = nameOfHand,
         this.rankOfHand = rankOfHand,
         this.highToLow = highCard
 }
 
 function checkHighCard(rankArr) {
 
-    rankArr = rankArr.sort(function(a, b) //sorts array in descending order
-        {
-            return b - a
-        });
-
+   
     var handInfo = new BestHandInfo("High Card", 1, [rankArr[0], rankArr[1], rankArr[2]]);
 
     return handInfo; // returns highest card in sorted array
 };
 
 function checkPair(rankArr) {
-    rankArr = rankArr.sort(function(a, b) { //sorts array in descending order
-        return b - a
-    });
+
     var highPairCard = 0;
     var kicker = 0;
     for (i = 0; i < 2; i++) {
@@ -316,11 +320,12 @@ function checkPair(rankArr) {
 };
 
 function checkFlush(cardSuites, rankArr) {
-    rankArr = rankArr.sort(function(a, b) { //sorts array in descending order
-        return b - a
-    });
-    if ((cardSuites[0] == cardSuites[1]) && (cardSuites[2] == cardSuites[1])) {
+
+    
+   
+    if ((cardSuites[0] === cardSuites[1]) && (cardSuites[2] === cardSuites[1])) {
         var handInfo = new BestHandInfo("Flush", 3, [rankArr[0], rankArr[1], rankArr[2]]);
+        console.log('THIS IS THE FLUSH HANDINFO: ');
         return handInfo;
     } else {
         return false;
@@ -328,9 +333,7 @@ function checkFlush(cardSuites, rankArr) {
 };
 
 function checkStraight(rankArr) {
-    rankArr = rankArr.sort(function(a, b) { //sorts array in descending order
-        return b - a
-    });
+
     //this if checks if there is an ace, queen, and king. ace being 14.
 
     if ((rankArr.indexOf(14) > (-1)) && (rankArr.indexOf(2) > (-1)) && (rankArr.indexOf(3) > (-1))) {
@@ -347,9 +350,7 @@ function checkStraight(rankArr) {
 };
 
 function checkThreeKind(rankArr) {
-    rankArr = rankArr.sort(function(a, b) { //sorts array in descending order
-        return b - a
-    });
+  
     if ((rankArr[0] == rankArr[1]) && (rankArr[2] == rankArr[1])) {
         var handInfo = new BestHandInfo("Three of a kind", 5, rankArr[0]);
         return handInfo;
@@ -366,6 +367,9 @@ function getBestHand(rankArr, suiteArr) {
         return checkThreeKind(rankArr);
     } else if (checkStraight(rankArr) != false) {
         return checkStraight(rankArr);
+    } else if (checkFlush(suiteArr,rankArr) != false) {
+        console.log('FLUSH IS TRUE');
+        return(checkFlush(suiteArr,rankArr));
     } else if (checkPair(rankArr) != false) {
         return checkPair(rankArr);
     } else {
@@ -374,7 +378,9 @@ function getBestHand(rankArr, suiteArr) {
 };
 
 function getWinner(dealer, player, antebet, pairplus) {
-    console.log(dealer);
+    console.log('BEST DEALER HAND: '+dealer);
+    console.log('BEST PLAYER HAND: '+player);
+
     if ((dealer.rankOfHand == 1) && (dealer.highToLow[0] < 12)) {
         return payOuts('dealerOut', player, antebet, pairplus);
     };
@@ -398,8 +404,8 @@ function getWinner(dealer, player, antebet, pairplus) {
 
             while (c < 3) {
 
-                plCard = Number(player.highToLow[c]);
-                dlCard = Number(dealer.highToLow[c]);
+                plCard = parseInt(player.highToLow[c]);
+                dlCard = parseInt(dealer.highToLow[c]);
 
                 if (plCard > dlCard) {
                     playerWins = true;
@@ -425,14 +431,14 @@ function getWinner(dealer, player, antebet, pairplus) {
 
         // if both have pairs
         else if ((player.rankOfHand == 2) && (dealer.rankOfHand == 2)) {
-            if ((Number(player.highPairCard)) > (Number(dealer.highPairCard))) {
+            if ((parseInt(player.highPairCard)) > (parseInt(dealer.highPairCard))) {
                 return payOuts('wins', player, antebet, pairplus);
-            } else if ((Number(player.highPairCard)) < (Number(dealer.highPairCard))) {
+            } else if ((parseInt(player.highPairCard)) < (parseInt(dealer.highPairCard))) {
                 return payOuts('loss', player, antebet, pairplus);
             } else {
-                if ((Number(player.kicker)) > (Number(dealer.kicker))) {
+                if ((parseInt(player.kicker)) > (parseInt(dealer.kicker))) {
                     return payOuts('wins', player, antebet, pairplus);
-                } else if ((Number(player.kicker)) < (Number(dealer.kicker))) {
+                } else if ((parseInt(player.kicker)) < (parseInt(dealer.kicker))) {
                     return payOuts('loss', player, antebet, pairplus);
                 } else { payOuts('push', player, antebet, pairplus); }
 
